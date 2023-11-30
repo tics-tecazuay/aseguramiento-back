@@ -1,0 +1,169 @@
+//criterios
+
+INSERT INTO public.criterio(
+	descripcion, nombre, visible)
+	VALUES ( 'Los temas centrales del criterio organización son la evaluación del funcionamiento general de la institución, que es base para la ejecución de funciones específicas, y de su ambiente socio-psicológico, que involucra no solo a los profesores y a los estudiantes; sino también, al resto de la comunidad educativa. Sus dos subcriterios, planificación y desarrollo y gestión social, establecen, precisamente, esos dos ámbitos.',
+			'ORGANIZACIÓN',
+			true);
+
+INSERT INTO public.criterio(
+	descripcion, nombre, visible)
+	VALUES ( 'En este modelo, el criterio Infraestructura, con un solo subcriterio, Infraestructura básica, y cuatro indicadores Puestos de trabajo de los profesores, Seguridad y salud ocupacional, Accesibilidad física y esparcimiento y Ancho de banda, solo evalúa aquellos aspectos de las instalaciones y los recursos que no se articulan con una función sustantiva específica, sino que generan facilidades para el funcionamiento de toda la institución.',
+			'INFRAESTRUCTURA',
+			true);
+
+//subcriterios
+
+INSERT INTO public.subcriterio(
+	 descripcion, nombre, visible, id_criterio)
+	VALUES ( 'El subcriterio está compuesto de cuatro indicadores, todos de naturaleza cualitativa. Los dos primeros, Planificación estratégica y operativa y Relaciones interinstitucionales para el desarrollo, son indicadores que han estado presentes en otros procesos de evaluación.',
+			'PLANIFICACIÓN Y DESARROLLO',
+			true,
+		   	1);
+
+INSERT INTO public.subcriterio(
+	 descripcion, nombre, visible, id_criterio)
+	VALUES ( 'Sus tres indicadores del subcriterio, Igualdad de oportunidades, Ética y transparencia y Bienestar psicológico junto a otros indicadores en otros criterios, responden a la visión de que la educación trasciende la instrucción e incluye componentes sociales, éticos y psicológicos que permean toda la vida institucional.',
+			'GESTIÓN SOCIAL',
+			true,
+		   	1);
+
+INSERT INTO public.subcriterio(
+	 descripcion, nombre, visible, id_criterio)
+	VALUES ( '',
+			'INFRAESTRUCTURA BÁSICA',
+			true,
+		   	2);
+
+//Indicadores
+
+INSERT INTO public.indicador(
+	descripcion, estandar, nombre, peso, tipo, visible, subcriterio_id_subcriterio)
+	VALUES ( 
+			'El instituto cuenta con un sistema de planificación cuyo centro es el Plan Estratégico de Desarrollo Institucional (PEDI), que se ejecuta a través de los Planes Operativos Anuales (POA). La planificación estratégica se sustenta en un diagnóstico participativo de la institución y su entorno.', 
+			1, 
+			'PLANIFICACIÓN ESTRATÉGICA Y OPERATIVA', 
+			0.03, 
+			'CUALITATIVO', 
+			true, 
+			1);
+
+
+INSERT INTO public.indicador(
+	descripcion, estandar, nombre, peso, tipo, visible, subcriterio_id_subcriterio)
+	VALUES ( 
+			'El instituto planifica y desarrolla relaciones interinstitucionales formales y efectivas, dirigidas a impulsar el desarrollo institucional, que tienen como objetivos principales la introducción de innovaciones, la capacitación, la utilización de infraestructura técnica y equipamiento especializado y el desarrollo de proyectos de docencia, I+D y vinculación con la sociedad conjuntos.',
+			1, 
+			'RELACIONES INTERINSTITUCIONALES PARA EL DESARROLLO', 
+			0.03, 
+			'CUALITATIVO', 
+			true, 
+			1);
+
+
+INSERT INTO public.indicador(
+	descripcion, estandar, nombre, peso, tipo, visible, subcriterio_id_subcriterio)
+	VALUES ( 
+			'La institución desarrolla acciones sistemáticas dirigidas al aseguramiento interno de la calidad (AIC), oficialmente normadas, que tienen como objetivos principales,',
+			1, 
+			'ASEGURAMIENTO INTERNO DE LA CALIDAD', 
+			0.03, 
+			'CUALITATIVO', 
+			true, 
+			1);
+
+
+INSERT INTO public.indicador(
+	descripcion, estandar, nombre, peso, tipo, visible, subcriterio_id_subcriterio)
+	VALUES ( 
+			'La institución ha implementado un Sistema Informático de Gestión (SIG) académico y administrativo, oficialmente reglamentado, que automatiza el procesamiento de la información de esos ámbitos del desempeño institucional. El SIG se actualiza en tiempo real y apoya eficazmente el aseguramiento interno de la Calidad (AIC).',
+			1, 
+			'SISTEMA INFORMÁTICO DE GESTIÓN', 
+			0.03, 
+			'CUALITATIVO', 
+			true, 
+			1);
+
+
+INSERT INTO public.indicador(
+	descripcion, estandar, nombre, peso, tipo, visible, subcriterio_id_subcriterio)
+	VALUES ( 
+			'La institución ejecuta, proactivamente, acciones afirmativas que apoyan el ingreso, permanencia y desempeño exitoso en el instituto, de personas en condición de vulnerabilidad. Estas acciones se corresponden con las necesidades de la comunidad educativa, del entorno y las posibilidades de la institución.',
+			1, 
+			'IGUALDAD DE OPORTUNIDADES', 
+			0.03, 
+			'CUALITATIVO', 
+			true, 
+			2);
+
+
+INSERT INTO public.indicador(
+	descripcion, estandar, nombre, peso, tipo, visible, subcriterio_id_subcriterio)
+	VALUES ( 
+			'El funcionamiento institucional está apegado a la legalidad nacional y a las normas internas oficialmente aprobadas.',
+			1, 
+			'ÉTICA Y TRANSPARENCIA', 
+			0.03, 
+			'CUALITATIVO', 
+			true, 
+			2);
+
+
+INSERT INTO public.indicador(
+	descripcion, estandar, nombre, peso, tipo, visible, subcriterio_id_subcriterio)
+	VALUES ( 
+			'La propuesta pedagógica del instituto, el comportamiento de las autoridades y los profesores y, en general, las relaciones interpersonales existentes en la institución, contribuyen al bienestar psicológico de los miembros de la comunidad educativa que, como regla, consideran a la institución como un ambiente seguro para construir una parte importante de sus proyectos de vida.',
+			1, 
+			'BIENESTAR PSICOLÓGICO', 
+			0.03, 
+			'CUALITATIVO', 
+			true, 
+			2);
+
+
+INSERT INTO public.indicador(
+	descripcion, estandar, nombre, peso, tipo, visible, subcriterio_id_subcriterio)
+	VALUES ( 
+			'El indicador evalúa las condiciones que ha creado la institución para el trabajo de oficina de los profesores de tiempo completo y medio tiempo.',
+			1, 
+			'PUESTOS DE TRABAJO DE LOS PROFESORES', 
+			0.025, 
+			'CUANTITATIVO', 
+			true, 
+			3);
+
+
+INSERT INTO public.indicador(
+	descripcion, estandar, nombre, peso, tipo, visible, subcriterio_id_subcriterio)
+	VALUES ( 
+			'La prevención de accidentes y de enfermedades profesionales y ocupacionales es de la mayor importancia.',
+			1, 
+			'SEGURIDAD Y SALUD OCUPACIONAL', 
+			0.025, 
+			'CUALITATIVO', 
+			true, 
+			3);
+
+
+INSERT INTO public.indicador(
+	descripcion, estandar, nombre, peso, tipo, visible, subcriterio_id_subcriterio)
+	VALUES ( 
+			'Como se puede apreciar en el estándar, el indicador aborda dos aspectos no estrictamente académicos, pero relevantes para la vida institucional.',
+			1, 
+			'ACCESIBILIDAD FÍSICA Y ESPARCIMIENTO', 
+			0.025, 
+			'CUALITATIVO', 
+			true, 
+			3);
+
+
+INSERT INTO public.indicador(
+	descripcion, estandar, nombre, peso, tipo, visible, subcriterio_id_subcriterio)
+	VALUES ( 
+			'El indicador evalúa la calidad y la estabilidad, a lo largo del período de evaluación, del acceso a internet de estudiantes, profesores y empleados administrativos del instituto, a través de la tasa de transferencia de datos, habitualmente conocida como ancho de banda.',
+			500, 
+			'ANCHO DE BANDA', 
+			0.025, 
+			'CUANTITATIVO', 
+			true, 
+			3);
