@@ -10,10 +10,10 @@ import java.util.List;
 public interface Archivo_repository extends JpaRepository<Archivo_s, Long> {
     @Query(value = "SELECT * from archivo where visible =true",nativeQuery = true)
     List<Archivo_s> listararchivo();
-    @Query(value = "select * from archivo ar join actividad ac on ar.id_actividad=ac.id_actividad\n" +
+    @Query(value = "select * from archivo ar join asignacion_evidencia ac on ar.id_asignacion_evidencia=ac.id_asignacion_evidencia\n" +
     "JOIN usuarios u ON ac.usuario_id = u.id where u.username=:username and ar.visible =true",nativeQuery = true)
     public List<Archivo_s> listararchivouser(String username);
-    @Query(value = "SELECT * FROM archivo WHERE visible = true AND  id_actividad=:idActividad",nativeQuery = true)
+    @Query(value = "SELECT * FROM archivo WHERE visible = true AND  id_asignacion_evidencia=:idActividad",nativeQuery = true)
     public List<Archivo_s> listararchivoActividad(Long idActividad);
     @Query(value = "SELECT u.id as idper, per.primer_nombre || ' ' || per.primer_apellido as resp, COALESCE(per.correo, 'Sin correo') AS correo, " +
             "ar.nombre as archiv, ac.nombre as activid, ac.fecha_inicio as ini,ac.fecha_fin as finish, ar.enlace as enlac " +

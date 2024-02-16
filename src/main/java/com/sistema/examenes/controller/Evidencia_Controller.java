@@ -2,10 +2,7 @@ package com.sistema.examenes.controller;
 
 import com.sistema.examenes.entity.Encabezado_Evaluar;
 import com.sistema.examenes.entity.Evidencia;
-import com.sistema.examenes.projection.AsigEvidProjection;
-import com.sistema.examenes.projection.EvidenciaCalProjection;
-import com.sistema.examenes.projection.EvidenciaProjection;
-import com.sistema.examenes.projection.EvidenciasProjection;
+import com.sistema.examenes.projection.*;
 import com.sistema.examenes.services.Evidencia_Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -128,6 +125,15 @@ public class Evidencia_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/evidenuserpendiente/{username}")
+    public ResponseEntity<List<EvidenciaProjection>> evidenUserPendiente(@PathVariable("username") String username) {
+        try {
+            return new ResponseEntity<>(Service.evidenUserPendiente(username), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     @GetMapping("/evidenciacal/{id_evidencia}/{id_modelo}")
     public ResponseEntity<EvidenciaCalProjection> evidenciacal(@PathVariable("id_evidencia") Long id_evidencia,@PathVariable("id_modelo") Long id_modelo) {
         try {
@@ -179,6 +185,16 @@ public class Evidencia_Controller {
             @PathVariable("id_indicador") Long id_indicador) {
         try {
             return new ResponseEntity<>(Service.listarEvidenciaPorIndicador(id_indicador), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/porcentajeEstadosdeActividades/{responsableId}")
+    public ResponseEntity<ActiDiagramaPieProjection> porcentajeEstadosdeActividadesPorResponsableId(@PathVariable("responsableId") Long responsableId) {
+        try {
+            ActiDiagramaPieProjection actividades = Service.porcentajeEstadosdeActividades(responsableId);
+            return new ResponseEntity<>(actividades, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

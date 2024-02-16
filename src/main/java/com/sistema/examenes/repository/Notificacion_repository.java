@@ -10,6 +10,9 @@ import java.sql.Date;
 import java.util.List;
 
 public interface Notificacion_repository extends JpaRepository<Notificacion, Long> {
+    //ListarTODO
+    @Query(value = "SELECT * FROM notificacion ORDER BY fecha DESC;",nativeQuery = true)
+    List<Notificacion> listarTodasNotificaciones();
     @Query(value = "SELECT * FROM notificacion WHERE usuario=:user ORDER BY fecha DESC;",nativeQuery = true)
     List<Notificacion> listarUserNoti(Long user);
     @Modifying
@@ -21,8 +24,21 @@ public interface Notificacion_repository extends JpaRepository<Notificacion, Lon
     List<Notificacion> listarNot(String fec);
     @Query(value = "SELECT * FROM notificacion WHERE rol=:roluser ORDER BY fecha DESC LIMIT(20)", nativeQuery = true)
     List<Notificacion> all(String roluser);
-    @Query(value = "SELECT * FROM notificacion WHERE rol=:roluser ORDER BY fecha ", nativeQuery = true)
-    List<Notificacion> all2(String roluser);
+    @Query(value = "SELECT * " +
+            "FROM notificacion " +
+            "WHERE rol = :roluser " +
+            "AND idactividad IN ( " +
+            "    SELECT evidencia_id_evidencia " +
+            "    FROM asignacion_evidencia " +
+            "    WHERE id_usuario_asignador = ( " +
+            "        SELECT id_usuario_asignador " +
+            "        FROM asignacion_evidencia " +
+            "        WHERE id_usuario_asignador = :userId " +
+            "        LIMIT 1 " +
+            "    ) " +
+            ") " +
+            "ORDER BY fecha DESC", nativeQuery = true)
+    List<Notificacion> all2(String roluser, Long userId);
 
     @Query(value = "SELECT DISTINCT ON (mensaje)* FROM notificacion WHERE usuario=:user ORDER BY mensaje, fecha DESC;",nativeQuery = true)
     List<Notificacion> listarulNoti(Long user);

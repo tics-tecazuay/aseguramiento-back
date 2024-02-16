@@ -30,8 +30,8 @@ public class Archivo_s implements Serializable {
     private boolean visible;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_actividad")
-    private Actividad actividad;
+    @JoinColumn(name = "id_asignacion_evidencia")
+    private Asignacion_Evidencia actividad;
 
     public Archivo_s() {
     }
@@ -43,7 +43,7 @@ public class Archivo_s implements Serializable {
         this.visible = visible;
     }
 
-    public Archivo_s(String enlace, String nombre, String descripcion, boolean visible, Actividad actividad) {
+    public Archivo_s(String enlace, String nombre, String descripcion, boolean visible, Asignacion_Evidencia actividad) {
         this.enlace = enlace;
         this.nombre = nombre;
         this.descripcion = descripcion;

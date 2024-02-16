@@ -1,0 +1,51 @@
+package com.sistema.examenes.services;
+
+import com.sistema.examenes.entity.Historial_Asignacion_Evidencia;
+import com.sistema.examenes.entity.SeguimientoUsuario;
+import com.sistema.examenes.entity.dto.SeguimientoUsuarioDTO;
+import com.sistema.examenes.projection.HistorialAsignacionEvidenciaProjection;
+import com.sistema.examenes.repository.Historial_Asignacion_Evidencia_repository;
+import com.sistema.examenes.repository.SeguimientoUsuario_repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Service
+public class SeguimientoUsuario_ServiceImpl extends GenericServiceImpl<SeguimientoUsuario, Long> implements SeguimientoUsuario_Service {
+
+    @Autowired
+    private SeguimientoUsuario_repository repository;
+    @Override
+    public CrudRepository<SeguimientoUsuario, Long> getDao() {
+        return repository;
+    }
+
+    @Override
+    public List<SeguimientoUsuarioDTO> listaSeguimientoUsuario() {
+        List<Object[]> resultados = repository.listaSeguimientoUsuario();
+        List<SeguimientoUsuarioDTO> dtos = new ArrayList<>();
+        for (Object[] resultado : resultados) {
+            BigInteger idSeguimientoBigInteger = (BigInteger) resultado[0];
+            Long idSeguimiento = idSeguimientoBigInteger.longValueExact(); // Convertir BigInteger a Long
+
+            SeguimientoUsuarioDTO dto = new SeguimientoUsuarioDTO(
+                    idSeguimiento,
+                    (String) resultado[1],
+                    (String) resultado[2],
+                    (String) resultado[3],
+                    (String) resultado[4],
+                    (String) resultado[5],
+                    (Date) resultado[6]
+            );
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
+
+}

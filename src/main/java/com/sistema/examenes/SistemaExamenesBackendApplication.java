@@ -12,9 +12,7 @@ import javax.annotation.Resource;
 @EnableScheduling
 @SpringBootApplication
 public class SistemaExamenesBackendApplication implements CommandLineRunner {
-
-	@Autowired
-	private UsuarioService usuarioService;
+	
 @Resource
 	Archivoservices servis;
 	public static void main(String[] args) {

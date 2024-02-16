@@ -24,7 +24,7 @@ public interface Asignacion_Admin_repository extends JpaRepository<Asignacion_Ad
     @Query(value = "SELECT * from asignacion_admin where usuario_id = ?1 and id_modelo = ?2 and visible =true ", nativeQuery = true)
     Asignacion_Admin listarAsignacion_AdminPorUsuario(Long id_usuario,Long id_modelo);
     @Query(value = "SELECT * from asignacion_admin where criterio_id_criterio = ?1 and id_modelo = ?2 AND visible=true", nativeQuery = true)
-    Asignacion_Admin listarAsignacion_AdminPorUsuarioCriterio(Long id_criterio, Long id_modelo);
+    List<Asignacion_Admin> listarAsignacion_AdminPorUsuarioCriterio(Long id_criterio, Long id_modelo);
 
     @Query(value = "SELECT * from asignacion_admin where criterio_id_criterio = ?1 and id_modelo = ?2 and usuario_id = ?3", nativeQuery = true)
     Asignacion_Admin asignacion_existente(Long id_criterio, Long id_modelo,Long id_usuario);
@@ -34,4 +34,49 @@ public interface Asignacion_Admin_repository extends JpaRepository<Asignacion_Ad
             "JOIN modelo mo ON mo.id_modelo=aa.id_modelo\n" +
             "WHERE aa.id_modelo=:id_modelo AND aa.criterio_id_criterio=:id_criterio", nativeQuery = true)
     NombreAsigProjection listarnombre_Admin(Long id_modelo, Long id_criterio);
+
+    @Query(value = "SELECT DISTINCT u.id as enc, " +
+            "per.primer_nombre || ' ' || per.primer_apellido as nombrescri, " +
+            "cri.nombre as actividasi " +
+            "FROM asignacion_admin aa " +
+            "JOIN usuarios u ON aa.usuario_id = u.id " +
+            "JOIN persona per ON per.id_persona = u.persona_id_persona AND u.visible = true " +
+            "JOIN criterio cri ON cri.id_criterio = aa.criterio_id_criterio AND cri.visible = true " +
+            "JOIN subcriterio s ON s.id_criterio = cri.id_criterio AND s.visible = true " +
+            "JOIN indicador i ON i.subcriterio_id_subcriterio = s.id_subcriterio AND i.visible = true " +
+            "JOIN asignacion_indicador ai ON ai.indicador_id_indicador = i.id_indicador AND ai.visible = true " +
+            "JOIN modelo mo ON mo.id_modelo = ai.modelo_id_modelo " +
+            "JOIN usuariorol ur ON ur.usuario_id = u.id " +
+            "WHERE aa.visible = true " +
+            "AND aa.id_modelo = :id_modelo " +
+            "AND cri.id_criterio = :id_criterio " +
+            "AND ur.rol_rolid = 1 " +  // Nuevo filtro por rol_rolid
+            "ORDER BY u.id;", nativeQuery = true)
+    List<AsignacionProjection> veradminsporcriterio(Long id_modelo, Long id_criterio);
+
+    @Query(value = "SELECT aa FROM Asignacion_Admin aa WHERE aa.usuario.id = ?1 AND aa.id_modelo.id_modelo = ?2 AND aa.criterio.id_criterio = ?3 AND aa.visible = true")
+    Asignacion_Admin buscar_asignacion_especifica(Long usuarioId, Long modeloId, Long criterioId);
+
+
+    @Query(value = "SELECT DISTINCT u.id as enc, " +
+            "per.primer_nombre || ' ' || per.primer_apellido as nombrescri, " +
+            "cri.nombre as actividasi " +
+            "FROM asignacion_admin aa " +
+            "JOIN usuarios u ON aa.usuario_id = u.id " +
+            "JOIN persona per ON per.id_persona = u.persona_id_persona AND u.visible = true " +
+            "JOIN criterio cri ON cri.id_criterio = aa.criterio_id_criterio AND cri.visible = true " +
+            "JOIN subcriterio s ON s.id_criterio = cri.id_criterio AND s.visible = true " +
+            "JOIN indicador i ON i.subcriterio_id_subcriterio = s.id_subcriterio AND i.visible = true " +
+            "JOIN asignacion_indicador ai ON ai.indicador_id_indicador = i.id_indicador AND ai.visible = true " +
+            "JOIN modelo mo ON mo.id_modelo = ai.modelo_id_modelo " +
+            "JOIN usuariorol ur ON ur.usuario_id = u.id " +
+            "WHERE aa.visible = true " +
+            "AND aa.id_modelo = :id_modelo " +
+            "AND cri.id_criterio = :id_criterio " +
+            "AND ur.rol_rolid = 3 " +  // Nuevo filtro por rol_rolid
+            "ORDER BY u.id;", nativeQuery = true)
+    List<AsignacionProjection> verresponsablesporcriterio(Long id_modelo, Long id_criterio);
+
+    List<Asignacion_Admin> findAsignacion_AdminByUsuario_Id(Long id_usuario);
+
 }

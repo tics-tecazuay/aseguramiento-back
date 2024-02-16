@@ -21,5 +21,5 @@ public class Observacion implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     private Usuario usuario;
     @ManyToOne(fetch = FetchType.EAGER)
-    private Actividad actividad;
+    private Asignacion_Evidencia actividad;
 }

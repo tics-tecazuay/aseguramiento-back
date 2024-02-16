@@ -20,6 +20,8 @@ public interface Criterio_Service extends GenericService<Criterio, Long> {
     // listarCriterioPorIndicador de repositorio
     public List<Criterio> listarCriterioPorIndicador(Long id_indicador);
 
+    public List<Criterio> obtenerCriteriosPorUsuarioYModelo(Long usuarioId, Long modeloId);
+
     //Lista de criterios para el flujo
     public List<CriterioSubcriteriosProjection> obtenerDatosCriterios();
     public List<ValoresProjection>  listarvalores(Long id_modelo);
@@ -29,4 +31,7 @@ public interface Criterio_Service extends GenericService<Criterio, Long> {
     List<CriteProjection> actividadesusuario(Long id, Long id_modelo);
     List<ValoresProjection> listarvalresp(Long id_modelo,Long id);
     CorreoProjection getCorreo(Long id_modelo, Long id_evidencia);
+    List<CriterioAdm> listarCriterioAdms (Long id_modelo,Long userId);
+    List<CriteRespProjection> criterioporresp(Long id, Long id_modelo);
+
 }

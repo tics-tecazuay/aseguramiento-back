@@ -7,9 +7,8 @@ public interface ResponsableProjection {
     String getNombres();
 
     String getRol();
-
-    Date getFecha_fin();
-    Date getFecha_inicio();
     String getUsua();
     String getEvidencias();
+
+    String getNombre_criterio();
 }

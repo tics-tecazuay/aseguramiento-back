@@ -37,10 +37,6 @@ public class Evidencia implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "evidencia")
     @JsonIgnore
-    private Set<Actividad> listaactividades = new HashSet<>();
-
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "evidencia")
-    @JsonIgnore
     private Set<Asignacion_Evidencia> lista_evidencias = new HashSet<>();
 
 

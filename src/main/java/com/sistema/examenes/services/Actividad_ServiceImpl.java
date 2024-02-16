@@ -1,7 +1,6 @@
 package com.sistema.examenes.services;
 
 import com.sistema.examenes.entity.Actividad;
-import com.sistema.examenes.entity.Actividad;
 import com.sistema.examenes.projection.ActivAprobadaProjection;
 import com.sistema.examenes.projection.ActivProyection;
 import com.sistema.examenes.projection.ActividadesProjection;
@@ -52,10 +51,6 @@ public class Actividad_ServiceImpl extends GenericServiceImpl<Actividad, Long> i
     public List<Actividad> listaCumplida() {
         return repository.listarActividadCumplidas();
 
-    }
-    @Override
-    public List<Actividad> listarporusuario(String username) {
-        return repository.listarporusuario(username);
     }
     @Override
     public List<Actividad>listarporEvidencia(Long idEvidencia ) {

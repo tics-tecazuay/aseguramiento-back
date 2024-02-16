@@ -1,31 +1,23 @@
 package com.sistema.examenes.controller;
 
-import com.sistema.examenes.entity.Actividad;
 import com.sistema.examenes.entity.Archivo;
 import com.sistema.examenes.entity.Archivo_s;
-import com.sistema.examenes.entity.Evidencia;
+import com.sistema.examenes.entity.Asignacion_Evidencia;
 import com.sistema.examenes.mensajes.Archivosmensajes;
 import com.sistema.examenes.projection.ArchivoProjection;
-import com.sistema.examenes.services.Actividad_Service;
-import com.sistema.examenes.services.Archivo_Service;
-import com.sistema.examenes.services.Archivoservices;
-import com.sistema.examenes.services.Evidencia_Service;
+import com.sistema.examenes.services.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 @RestController
@@ -40,7 +32,7 @@ public class Archivo_Controller {
     @Autowired
     Archivo_Service archivoservis;
     @Autowired
-    Actividad_Service actiservis;
+    Asignacion_Evidencia_Service actiservis;
 
     @Autowired
     HttpServletRequest request;
@@ -48,12 +40,12 @@ public class Archivo_Controller {
     @PostMapping("/upload")
     public ResponseEntity<Archivosmensajes> upload(@RequestParam("file") MultipartFile[] files,
                                                    @RequestParam("descripcion") String describcion,
-                                                   @RequestParam("id_evidencia") Long id_actividad) {
+                                                   @RequestParam("id_evidencia") Long id_evidencia) {
         String meNsaje = "";
         try {
-            Actividad actividad = actiservis.findById(id_actividad);
+            Asignacion_Evidencia actividad = actiservis.findById(id_evidencia);
             if (actividad == null) {
-                meNsaje = "No se encontró la evidencia con id " + id_actividad;
+                meNsaje = "No se encontró la evidencia con id " + id_evidencia;
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Archivosmensajes(meNsaje));
             }
             List<String> fileNames = new ArrayList<>();
