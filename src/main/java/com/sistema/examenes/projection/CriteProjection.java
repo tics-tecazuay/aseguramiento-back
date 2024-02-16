@@ -4,3 +4,4 @@ public interface CriteProjection {
     String getCriterio();
     String getEvidencia();
 }
+

@@ -49,6 +49,12 @@ public class Criterio_ServiceImpl extends GenericServiceImpl<Criterio, Long> imp
     public List<Criterio> listarCriterioPorIndicador(Long id_indicador) {
         return repository.listarCriterioPorIndicador(id_indicador);
     }
+
+    @Override
+    public List<Criterio> obtenerCriteriosPorUsuarioYModelo(Long usuarioId, Long modeloId) {
+        return repository.obtenerCriteriosPorUsuarioYModelo(usuarioId,modeloId);
+    }
+
     public List<CriterioSubcriteriosProjection> obtenerDatosCriterios() {
         return repository.obtenerCriteriosConCantidadSubcriterios();
     }
@@ -84,8 +90,18 @@ public class Criterio_ServiceImpl extends GenericServiceImpl<Criterio, Long> imp
     }
 
     @Override
+    public List<CriteRespProjection> criterioporresp(Long id, Long id_modelo) {
+        return repository.criterioporresp(id, id_modelo);
+    }
+
+    @Override
     public CorreoProjection getCorreo(Long id_modelo, Long id_evidencia) {
         return repository.getCorreo(id_modelo, id_evidencia);
+    }
+
+    @Override
+    public List<CriterioAdm> listarCriterioAdms(Long id_modelo, Long userId) {
+        return repository.getCriteriosByAdmin(id_modelo,userId);
     }
 
 }

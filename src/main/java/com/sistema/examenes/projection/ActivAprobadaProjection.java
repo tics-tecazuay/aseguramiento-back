@@ -10,4 +10,6 @@ public interface ActivAprobadaProjection {
     String getInicio();
     String getFin();
     String getEnlace();
+    String getEvidencia();
+
 }

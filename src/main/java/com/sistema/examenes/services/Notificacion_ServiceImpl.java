@@ -20,10 +20,14 @@ public class Notificacion_ServiceImpl extends GenericServiceImpl<Notificacion,Lo
     }
 
     @Override
+    public List<Notificacion> listarTodasNotificaciones() {
+        return notificacionRepository.listarTodasNotificaciones();
+    }
+
+    @Override
     public List<Notificacion> listar(Long user) {
         return notificacionRepository.listarUserNoti(user);
     }
-
 
     @Override
     public void eliminar(Long id) {
@@ -46,8 +50,8 @@ public class Notificacion_ServiceImpl extends GenericServiceImpl<Notificacion,Lo
     }
 
     @Override
-    public List<Notificacion> all2(String roluser) {
-        return notificacionRepository.all2(roluser);
+    public List<Notificacion> all2(String roluser, Long userId) {
+        return notificacionRepository.all2(roluser,userId);
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.sistema.examenes.controller;
 
 import com.sistema.examenes.entity.Actividad;
+import com.sistema.examenes.entity.Asignacion_Evidencia;
 import com.sistema.examenes.entity.Notificacion;
 import com.sistema.examenes.services.Actividad_Service;
+import com.sistema.examenes.services.Asignacion_Evidencia_Service;
 import com.sistema.examenes.services.NotificacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,13 +25,22 @@ public class Notificacion_Controller {
     @Autowired
     NotificacionService service;
     @Autowired
-    Actividad_Service act;
+    Asignacion_Evidencia_Service act;
 
     @PostMapping("/crear")
     public ResponseEntity<Notificacion> crear(@RequestBody Notificacion not){
         try {
             not.setVisto(false);
             return new ResponseEntity<>(service.save(not), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/listarTodasNotificaciones")
+    public ResponseEntity<List<Notificacion>>listarTodasNotificaciones(){
+        try {
+            return new ResponseEntity<>(service.listarTodasNotificaciones(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -60,10 +71,10 @@ public class Notificacion_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/listartodo2/{roluser}")
-    public ResponseEntity<List<Notificacion>>obtenerLista2(@PathVariable("roluser") String roluser) {
+    @GetMapping("/listartodo2/{roluser}/{userId}")
+    public ResponseEntity<List<Notificacion>>obtenerLista2(@PathVariable("roluser") String roluser, @PathVariable("userId") Long userId) {
         try {
-            return new ResponseEntity<>(service.all2(roluser), HttpStatus.OK);
+            return new ResponseEntity<>(service.all2(roluser,userId), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -105,8 +116,8 @@ public class Notificacion_Controller {
 //@Scheduled(cron = "segundo minuto hora día-del-mes mes día-de-la-semana")
     @Scheduled(cron = "0 0 10 * * ?") // Ejecutar todos los días a las 10 AM 13PM
     public void CrearNotificaciones() {
-        List<Actividad> actividades = act.findByAll();
-        for (Actividad actividad : actividades) {
+        List<Asignacion_Evidencia> actividades = act.findByAll();
+        for (Asignacion_Evidencia actividad : actividades) {
             Date fechaFinActividad = actividad.getFecha_fin();
             Date fechaActual = new Date();
 
@@ -124,9 +135,9 @@ public class Notificacion_Controller {
                 notificacion.setFecha(new Date());
                 notificacion.setRol("");
                 if (fechaActual.compareTo(fechaNotificacion1) >= 0) {
-                    notificacion.setMensaje("La actividad " + actividad.getNombre() + " finalizará en 1 día. Asegúrese de haberla cumplido.");
+                    notificacion.setMensaje("La actividad " + actividad.getEvidencia().getDescripcion() + " finalizará en 1 día. Asegúrese de haberla cumplido.");
                 } else {
-                    notificacion.setMensaje("Hoy es el día de entrega de la actividad " + actividad.getNombre() + ". Asegúrese de haberla cumplido.");
+                    notificacion.setMensaje("Hoy es el día de entrega de la actividad " + actividad.getEvidencia().getDescripcion() + ". Asegúrese de haberla cumplido.");
                 }
                 notificacion.setVisto(false);
                 notificacion.setUsuario(actividad.getUsuario().getId());

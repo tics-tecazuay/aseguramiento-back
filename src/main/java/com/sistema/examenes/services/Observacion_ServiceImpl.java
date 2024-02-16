@@ -39,8 +39,8 @@ public class Observacion_ServiceImpl extends GenericServiceImpl<Observacion, Lon
     }
 
     @Override
-    public List<Observacion> observacionactividad(Long id_actividad) {
-        return repository.observacionactividad(id_actividad);
+    public List<Observacion> observacionactividad(Long id_asignacion_evidencia) {
+        return repository.observacionactividad(id_asignacion_evidencia);
     }
 
 }

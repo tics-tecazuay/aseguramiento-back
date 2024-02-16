@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RolServiceImpl extends GenericServiceImpl<Rol, Long> implements RolService{
     @Autowired
@@ -13,5 +15,10 @@ public class RolServiceImpl extends GenericServiceImpl<Rol, Long> implements Rol
     @Override
     public CrudRepository<Rol, Long> getDao() {
         return rolRepository;
+    }
+
+    @Override
+    public List<Rol> listaRolesPorUsername(String username) {
+        return rolRepository.listaRolesPorUsername(username);
     }
 }

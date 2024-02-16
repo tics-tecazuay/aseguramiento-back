@@ -3,12 +3,10 @@ package com.sistema.examenes.repository;
 import com.sistema.examenes.entity.Actividad;
 import com.sistema.examenes.entity.Criterio;
 import com.sistema.examenes.entity.Evidencia;
-import com.sistema.examenes.projection.AsigEvidProjection;
-import com.sistema.examenes.projection.EvidenciaCalProjection;
-import com.sistema.examenes.projection.EvidenciaProjection;
-import com.sistema.examenes.projection.EvidenciasProjection;
+import com.sistema.examenes.projection.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -28,6 +26,16 @@ public interface Evidencia_repository extends JpaRepository<Evidencia, Long> {
             "JOIN usuarios u ON u.id=ae.usuario_id " +
             "WHERE u.username=:username ", nativeQuery = true)
     public List<EvidenciaProjection> evidenUsuario(String username);
+
+    @Query(value = "SELECT e.id_evidencia, cri.nombre AS criterio,s.nombre AS subcriterio,i.nombre AS indicador,e.descripcion AS descripcion, " +
+            "e.estado AS estado FROM evidencia e JOIN indicador i ON i.id_indicador=e.indicador_id_indicador " +
+            "JOIN subcriterio s ON s.id_subcriterio=i.subcriterio_id_subcriterio " +
+            "JOIN criterio cri ON cri.id_criterio=s.id_criterio " +
+            "JOIN asignacion_evidencia ae ON ae.evidencia_id_evidencia=e.id_evidencia " +
+            "AND ae.visible=true AND ae.id_modelo=(SELECT MAX(id_modelo) FROM modelo) " +
+            "JOIN usuarios u ON u.id=ae.usuario_id " +
+            "WHERE u.username=:username AND LOWER(e.estado)='pendiente'", nativeQuery = true)
+    public List<EvidenciaProjection> evidenUserPendiente(String username);
 
    /* @Query(value = " SELECT e.* FROM evidencia e  \n" +
             "               LEFT JOIN asignacion_evidencia ae ON e.id_evidencia = ae.evidencia_id_evidencia \n" +
@@ -113,4 +121,22 @@ public interface Evidencia_repository extends JpaRepository<Evidencia, Long> {
             "JOIN usuarios u ON ae.usuario_id = u.id where e.visible =true AND e.id_evidencia=:id_evidencia " +
             "AND ae.visible=true AND ae.id_modelo=:id_modelo ", nativeQuery = true)
     EvidenciaCalProjection evidenciacal(Long id_evidencia, Long id_modelo);
+
+    @Query(value = "SELECT " +
+            "SUM(CASE WHEN LOWER(e.estado) = 'pendiente' THEN 1 ELSE 0 END) AS pendientes, \n" +
+            "SUM(CASE WHEN LOWER(e.estado) = 'aprobada' THEN 1 ELSE 0 END) AS aprobados, \n" +
+            "SUM(CASE WHEN LOWER(e.estado) = 'rechazada' THEN 1 ELSE 0 END) AS rechazados, \n" +
+            "COUNT(*) AS total, "+
+            "TRUNC((SUM(CASE WHEN LOWER(e.estado) = 'pendiente' THEN 1 ELSE 0 END) * 100.0) / COUNT(*), 2) AS porcentaje_pendientes, " +
+            "TRUNC((SUM(CASE WHEN LOWER(e.estado) = 'aprobada' THEN 1 ELSE 0 END) * 100.0) / COUNT(*), 2) AS porcentaje_aprobados, " +
+            "TRUNC((SUM(CASE WHEN LOWER(e.estado) = 'rechazada' THEN 1 ELSE 0 END) * 100.0) / COUNT(*), 2) AS porcentaje_rechazados " +
+            "FROM " +
+            "evidencia e " +
+            "JOIN " +
+            "asignacion_evidencia asi ON e.id_evidencia = asi.evidencia_id_evidencia " +
+            "JOIN " +
+            "usuarios u ON u.id = asi.usuario_id " +
+            "WHERE " +
+            "u.id = :responsableId AND e.visible = true", nativeQuery = true)
+    ActiDiagramaPieProjection porcentajeEstadosdeActividadesByResponsableId(@Param("responsableId") Long responsableId);
 }

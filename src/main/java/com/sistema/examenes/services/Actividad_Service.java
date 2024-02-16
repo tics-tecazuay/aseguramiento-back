@@ -15,7 +15,6 @@ public interface Actividad_Service extends GenericService<Actividad, Long>{
     public List<ActivAprobadaProjection> actividadApr(Long id_modelo);
     public List<Actividad> listaAtrasada();
     public List<Actividad> listaCumplida();
-    public List<Actividad> listarporusuario(String username);
     List<Actividad> findByNombreContainingIgnoreCase(String nombre);
     public List<Actividad>listarporEvidencia(Long idEvidencia );
     public List<Actividad> listaEvidAtrasada();
@@ -24,7 +23,6 @@ public interface Actividad_Service extends GenericService<Actividad, Long>{
     public List<ActividadesProjection> actividadCont(Long id_modelo);
     public List<Actividad> listaActByUsuario(Long id);
    public List<ActivProyection>listarByActividad();
-
     List<Actividad>listareviuser(String username,Long id_evidencia);
 }
 

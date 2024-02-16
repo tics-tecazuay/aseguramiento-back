@@ -30,10 +30,14 @@ public class UsuarioServiceImpl extends GenericServiceImpl<Usuario, Long> implem
     }
 
     @Override
-    public List<ResponsableProjection> responsables() {
+    public List<Usuario> responsables() {
         return usuarioRepository.responsables();
     }
 
+    @Override
+    public List<ResponsableProjection> responsablesAdmin() {
+        return usuarioRepository.responsablesGeneral();
+    }
 
     @Override
     public Usuario obtenerId(String username) {
@@ -49,4 +53,8 @@ public class UsuarioServiceImpl extends GenericServiceImpl<Usuario, Long> implem
         return usuarioRepository.listaSOLORESPONSABLES();
     }
 
+    @Override
+    public List<ResponsableProjection> responsablesAdmin(Long idAdministrador) {
+        return usuarioRepository.responsablesAdmin(idAdministrador);
+    }
 }
