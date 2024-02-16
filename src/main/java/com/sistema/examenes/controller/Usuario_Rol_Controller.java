@@ -30,7 +30,7 @@ public class Usuario_Rol_Controller {
     @GetMapping("/listarv")
     public ResponseEntity<List<UsuarioRol>> obtenerLista() {
         try {
-            System.out.println(usuarioService.listarv());
+
 
             return new ResponseEntity<>(usuarioService.listarv(), HttpStatus.OK);
         } catch (Exception e) {
@@ -110,7 +110,6 @@ public class Usuario_Rol_Controller {
             // Si no se encuentra el usuarioRol
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

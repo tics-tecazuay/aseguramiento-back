@@ -103,7 +103,7 @@ public class UsuarioController {
         try {
             Usuario usuarioExistente = usuarioService.findAllByUsername(r.getUsername());
             if (usuarioExistente != null) {
-                System.out.println(usuarioExistente.getPersona().getCedula());
+
                 usuarioExistente.setVisible(true);
                 //Si el responsable existe se crea nuevamente las asignaciones de los criterios
                 registrarCriteriosAdminAlResponsable(usuarioExistente,adminId,modeloId);

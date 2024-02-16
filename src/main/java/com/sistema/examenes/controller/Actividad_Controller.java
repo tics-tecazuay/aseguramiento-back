@@ -106,10 +106,8 @@ public class Actividad_Controller {
     @GetMapping("/listarActAtrasa")
     public ResponseEntity<List<Actividad>> obtenerListaEviAtras() {
         try {
-            System.out.println(Service.listaEvidAtrasada());
             return new ResponseEntity<>(Service.listaEvidAtrasada(), HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage().toString());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -118,7 +116,6 @@ public class Actividad_Controller {
         try {
             return new ResponseEntity<>(Service.actividadCont(id_modelo), HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage().toString());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

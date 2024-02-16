@@ -41,7 +41,6 @@ private JavaMailSender mail;
 
     @PostMapping("/send-email")
     public ResponseEntity<?> receiveRequestEmail(@RequestBody EmailDTO emailDTO){
-        System.out.println("Mensaje Recibido " + emailDTO);
         emailService.sendEmail(emailDTO.getToUser(), emailDTO.getSubject(), emailDTO.getMessage());
         Map<String, String> response = new HashMap<>();
         response.put("estado", "Enviado");

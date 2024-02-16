@@ -71,7 +71,7 @@ public class Asignacion_Responsable_Controller {
                 ServiceUsuario.save(u);
                 return new ResponseEntity<>(Service.save(a), HttpStatus.NO_CONTENT);
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
 

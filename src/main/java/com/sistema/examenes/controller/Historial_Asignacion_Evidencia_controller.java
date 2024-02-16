@@ -84,7 +84,7 @@ public class Historial_Asignacion_Evidencia_controller {
         try {
             return new ResponseEntity<>(Service.listarHistorial(id_usuario_asignador, id_criterio, veri), HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

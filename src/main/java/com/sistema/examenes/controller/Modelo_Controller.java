@@ -244,7 +244,7 @@ public class  Modelo_Controller {
             List<criteriosdesprojection> criterios =Service.listicrinom(id_modelo, nombre);
             return new ResponseEntity<>(criterios, HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
