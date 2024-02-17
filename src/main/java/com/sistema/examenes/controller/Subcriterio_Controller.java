@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = { "https://apps.tecazuay.edu.ec" })
+@CrossOrigin({"https://apps.tecazuay.edu.ec","http://localhost:4200/"})
 @RestController
 @RequestMapping("/aseguramiento/api/subcriterio")
 public class Subcriterio_Controller {

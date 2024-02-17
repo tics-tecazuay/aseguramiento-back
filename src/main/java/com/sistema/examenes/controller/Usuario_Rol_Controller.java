@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/aseguramiento/api/usuariorol")
-@CrossOrigin("https://apps.tecazuay.edu.ec")
+@CrossOrigin({"https://apps.tecazuay.edu.ec","http://localhost:4200/"})
 public class Usuario_Rol_Controller {
     @Autowired
     private UsuarioRolService usuarioService;

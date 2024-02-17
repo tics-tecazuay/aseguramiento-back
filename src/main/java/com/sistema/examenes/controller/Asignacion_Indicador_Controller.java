@@ -15,7 +15,7 @@ import com.sistema.examenes.repository.Asignacion_Indicador_repository;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = { "https://apps.tecazuay.edu.ec" })
+@CrossOrigin({"https://apps.tecazuay.edu.ec","http://localhost:4200/"})
 @RestController
 @RequestMapping("/aseguramiento/api/asignacion_indicador")
 public class Asignacion_Indicador_Controller {

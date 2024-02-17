@@ -20,7 +20,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/aseguramiento/usuarios")
-@CrossOrigin("https://apps.tecazuay.edu.ec")
+@CrossOrigin({"https://apps.tecazuay.edu.ec","http://localhost:4200/"})
 public class UsuarioController {
 
     @Autowired
