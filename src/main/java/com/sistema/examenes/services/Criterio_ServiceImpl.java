@@ -31,8 +31,13 @@ public class Criterio_ServiceImpl extends GenericServiceImpl<Criterio, Long> imp
     }
 
     @Override
-    public List<Criterio> obtenerCriteriosUltimoModelo() {
-        return repository.obtenerCriteriosUltimoModelo();
+    public List<CriteProjection> ObtenerCriterioUltimoModelo(Long id_modelo) {
+        return repository.ObtenerCriterioUltimoModelo(id_modelo);
+    }
+
+    @Override
+    public List<Criterio> obtenerCriteriosUltimoModelo(Long id_modelo) {
+        return repository.obtenerCriteriosUltimoModelo(id_modelo);
     }
 
     @Override
@@ -45,6 +50,7 @@ public class Criterio_ServiceImpl extends GenericServiceImpl<Criterio, Long> imp
         return repository.obtenerCriteriosModeloId(id);
     }
 
+
     @Override
     public List<Criterio> listarCriterioPorIndicador(Long id_indicador) {
         return repository.listarCriterioPorIndicador(id_indicador);
@@ -55,13 +61,18 @@ public class Criterio_ServiceImpl extends GenericServiceImpl<Criterio, Long> imp
         return repository.obtenerCriteriosPorUsuarioYModelo(usuarioId,modeloId);
     }
 
-    public List<CriterioSubcriteriosProjection> obtenerDatosCriterios() {
-        return repository.obtenerCriteriosConCantidadSubcriterios();
+    public List<CriterioSubcriteriosProjection> obtenerDatosCriterios(Long id_modelo) {
+        return repository.obtenerCriteriosConCantidadSubcriterios(id_modelo);
     }
 
     @Override
     public List<ValoresProjection> listarvalores(Long id_modelo) {
         return repository.listarvalores(id_modelo);
+    }
+
+    @Override
+    public List<ValoresProjection> listarvaloresmovil() {
+        return repository.listarvaloresMovil();
     }
 
     @Override
@@ -72,6 +83,11 @@ public class Criterio_ServiceImpl extends GenericServiceImpl<Criterio, Long> imp
     @Override
     public List<ValoresProjection> listarvaladmin(Long id_modelo, Long id) {
         return repository.listarvaladmin(id_modelo,id);
+    }
+
+    @Override
+    public List<ValoresProjection> listarvaladminmovil(Long id) {
+        return repository.listarvaladminmovil(id);
     }
 
     @Override
@@ -102,6 +118,19 @@ public class Criterio_ServiceImpl extends GenericServiceImpl<Criterio, Long> imp
     @Override
     public List<CriterioAdm> listarCriterioAdms(Long id_modelo, Long userId) {
         return repository.getCriteriosByAdmin(id_modelo,userId);
+    }
+    @Override
+    public List<CriteProjection> listarcriusers(Long id_usuariorol, Long id_modelo) {
+        return repository.listarcriusers(id_usuariorol, id_modelo);
+    }
+    @Override
+    public List<CriterioAdm> criteriosadmultimomodelo(Long userId) {
+        return repository.criteriosadmultimomodelo(userId);
+    }
+
+    @Override
+    public List<CriterioPorcProjection> criteriosporModelo(Long id_modelo) {
+        return repository.criteriosporModelo(id_modelo);
     }
 
 }

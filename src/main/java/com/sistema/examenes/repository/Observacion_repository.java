@@ -10,23 +10,27 @@ import java.util.List;
 
 public interface Observacion_repository extends JpaRepository<Observacion, Long> {
 
-    @Query(value = "SELECT * from observacion where visible =true",nativeQuery = true)
+    @Query("SELECT ob FROM Observacion ob WHERE ob.visible =true")
     List<Observacion> listarObservacion();
-    @Query(value = "SELECT * FROM observacion WHERE actividad_id_asignacion_evidencia =:id_asignacion_evidencia AND visible = true " +
-            "AND (observacion != 'Ninguna' OR id_observacion = (SELECT MAX(id_observacion) " +
-            "FROM observacion WHERE observacion = 'Ninguna' AND actividad_id_asignacion_evidencia =:id_asignacion_evidencia " +
-            "AND visible = true))",nativeQuery = true)
+    @Query("SELECT ob FROM Observacion ob " +
+            "WHERE ob.actividad.id_asignacion_evidencia =:id_asignacion_evidencia " +
+            "AND ob.visible = true " +
+            "AND (ob.observacion != 'Ninguna' OR ob.id_observacion = (SELECT MAX(obs.id_observacion) " +
+            "FROM Observacion obs WHERE obs.observacion = 'Ninguna' AND obs.actividad.id_asignacion_evidencia =:id_asignacion_evidencia " +
+            "AND obs.visible = true))")
     List<Observacion> observacionactividad(Long id_asignacion_evidencia);
-    @Query(value = "SELECT * from observacion o JOIN usuarios u ON u.id=o.usuario_id " +
-            "JOIN actividad ac ON ac.id_actividad=o.actividad_id_actividad WHERE o.visible =true and u.username=:user " +
-            "and ac.id_actividad=:id",nativeQuery = true)
+    @Query("SELECT o from Observacion o " +
+            "JOIN FETCH o.usuario u " +
+            "JOIN FETCH o.actividad ac  " +
+            "WHERE o.visible =true and u.username=:user " +
+            "and ac.id_asignacion_evidencia=:id")
     List<Observacion> observacionUsuario(String user, Long id);
 
     @Modifying
     @Query(value = "DELETE FROM observacion WHERE id_observacion=:id", nativeQuery = true)
     void borrar(Long id);
     
-    @Query(value = "SELECT * FROM observacion WHERE actividad_id_asignacion_evidencia=:idact AND visible=true",nativeQuery = true)
+    @Query("SELECT o FROM Observacion o WHERE o.actividad.id_asignacion_evidencia=:idact AND o.visible=true")
     List<Observacion> observacionActividad(Long idact);
     
 }

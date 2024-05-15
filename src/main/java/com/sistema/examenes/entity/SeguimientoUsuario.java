@@ -20,7 +20,8 @@ public class SeguimientoUsuario implements Serializable {
     private String descripcion;
     @Column(name = "fecha")
     private Date fecha;
-
-    @ManyToOne(fetch = FetchType.EAGER)
+    @Column(name = "id_modelo") // Columna para guardar el Modelo en el que se realiza el registro
+    private Long id_modelo;
+    @ManyToOne(fetch = FetchType.LAZY)
     private Usuario usuario;
 }

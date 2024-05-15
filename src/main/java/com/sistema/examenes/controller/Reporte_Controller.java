@@ -36,14 +36,14 @@ public class Reporte_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/listarv")
+    /*@GetMapping("/listarv")
     public ResponseEntity<List<Reporte>> obtenerListav() {
         try {
             return new ResponseEntity<>(Service.listar(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
+    }*/
     @GetMapping("/buscar/{id}")
     public ResponseEntity<Reporte> getById(@PathVariable("id") Long id) {
         try {

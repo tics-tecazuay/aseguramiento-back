@@ -8,5 +8,10 @@ public interface EvidenciaProjection {
     String getIndicador();
     String getEstado();
     String getDescripcion();
+    Long getId_asignacion_evidencia();
+    Long getCountarchivos();
+
+    //Listar Archivos - Rol Autoridad
+    String getEnlaces();
 
 }

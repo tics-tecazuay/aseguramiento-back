@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface SeguimientoUsuario_Service extends GenericService<SeguimientoUsuario, Long> {
 
-    public List<SeguimientoUsuarioDTO> listaSeguimientoUsuario();
+     List<SeguimientoUsuarioDTO> listaSeguimientoUsuario();
 }

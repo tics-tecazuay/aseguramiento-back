@@ -3,6 +3,7 @@ package com.sistema.examenes.controller;
 import com.sistema.examenes.entity.Asignacion_Indicador;
 import com.sistema.examenes.entity.Modelo;
 import com.sistema.examenes.projection.AsignaIndicadorProjection;
+import com.sistema.examenes.projection.AsignacionIndicadorProjection;
 import com.sistema.examenes.services.Asignacion_Indicador_Service;
 import com.sistema.examenes.services.Modelo_Service;
 
@@ -38,7 +39,7 @@ public class Asignacion_Indicador_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+/**
     @GetMapping("/listar")
     public ResponseEntity<List<Asignacion_Indicador>> obtenerLista() {
         try {
@@ -47,6 +48,7 @@ public class Asignacion_Indicador_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @GetMapping("/listarv")
     public ResponseEntity<List<Asignacion_Indicador>> obtenerListav() {
@@ -103,7 +105,7 @@ public class Asignacion_Indicador_Controller {
 
         }
     }
-
+ **/
     // metodo post para crear un nuevo Asignacion_Indicador
     @PostMapping("/crearAsignacion")
     public ResponseEntity<Asignacion_Indicador> crearAsignacion(@RequestBody Asignacion_Indicador r) {
@@ -121,12 +123,10 @@ public class Asignacion_Indicador_Controller {
     }
 
     // metodo get para obtener la lista de Asignacion_Indicador por objeto modelo
-    @GetMapping("/listarAsignacion/{id}")
-    public ResponseEntity<List<Asignacion_Indicador>> obtenerListaAsignacion(@PathVariable("id") Long id) {
+    @GetMapping("/listarAsignacion/{id_modelo}")
+    public ResponseEntity<List<AsignacionIndicadorProjection>> obtenerListaAsignacion(@PathVariable("id_modelo") Long id_modelo) {
         try {
-            Modelo m = new Modelo();
-            m = modelo_Service.findById(id);
-            return new ResponseEntity<>(Service.findByModelo(m), HttpStatus.OK);
+            return new ResponseEntity<>(Service.listarAsignacionIndicador(id_modelo), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

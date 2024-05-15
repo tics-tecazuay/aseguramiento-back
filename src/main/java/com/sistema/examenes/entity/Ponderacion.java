@@ -39,9 +39,9 @@ public class Ponderacion implements Serializable {
     // Columna para el eliminado logico no borrar
     @Column(name = "visible")
     private boolean visible;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Modelo modelo;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Indicador indicador;
     @Column(name = "contador")
     private Long contador;

@@ -24,4 +24,6 @@ public class Notificacion {
     private Boolean visto;
     private String url;
     private Long idactividad;
+    @Column(name = "id_modelo") // Columna para guardar el Modelo en el que se realiza el registro
+    private Long id_modelo;
 }

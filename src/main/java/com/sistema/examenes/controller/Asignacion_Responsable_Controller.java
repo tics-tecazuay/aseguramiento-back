@@ -20,12 +20,12 @@ public class Asignacion_Responsable_Controller {
     Asignacion_Responsable_Service Service;
     @Autowired
     UsuarioService ServiceUsuario;
-    @PostMapping("/crear/{usuarioAdmin}/{usuarioResponsable}")
-    public ResponseEntity<?> crear(@PathVariable Long usuarioAdmin, @PathVariable String usuarioResponsable) {
+    @PostMapping("/crear/{usuarioAdmin}/{usuarioResponsable}/{idModel}")
+    public ResponseEntity<?> crear(@PathVariable Long usuarioAdmin, @PathVariable String usuarioResponsable, @PathVariable Long idModel) {
         try {
             Usuario usuarioAdm = ServiceUsuario.findById(usuarioAdmin);
             Usuario usuarioRes = ServiceUsuario.findAllByUsername(usuarioResponsable);
-            Asignacion_Responsable asignacionExistente = Service.asignacion_existente(usuarioAdm.getId(),usuarioRes.getId());
+            Asignacion_Responsable asignacionExistente = Service.asignacion_existente(usuarioAdm.getId(),usuarioRes.getId(), idModel);
             if (asignacionExistente != null) {
                 asignacionExistente.setVisible(true);
                 return new ResponseEntity<>(Service.save(asignacionExistente), HttpStatus.OK);
@@ -58,6 +58,7 @@ public class Asignacion_Responsable_Controller {
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
         return Service.delete(id);
     }
+
     @PutMapping("/eliminarlogic/{id_usuarioResponsable}")
     public ResponseEntity<?> eliminarlogic(@PathVariable Long id_usuarioResponsable) {
         Asignacion_Responsable a = Service.asignacionByIdUsuarioResponsable(id_usuarioResponsable);
@@ -77,11 +78,11 @@ public class Asignacion_Responsable_Controller {
 
         }
     }
-    @GetMapping("/listadeResponsablesByAdmin/{idAdministrador}")
-    public ResponseEntity<List<ResponsableProjection>> listadeResponsablesByAdmin(@PathVariable Long idAdministrador) {
+    @GetMapping("/listadeResponsablesByAdmin/{idModelo}/{idAdministrador}")
+    public ResponseEntity<List<ResponsableProjection>> listadeResponsablesByAdmin(@PathVariable Long idModelo,@PathVariable Long idAdministrador) {
         try {
             //Tendria que tomar el id del administrador como parametro, y con ello traigo los responsables
-            List<ResponsableProjection> responsables = Service.listadeResponsablesByAdmin(idAdministrador);
+            List<ResponsableProjection> responsables = Service.listadeResponsablesByAdmin(idModelo,idAdministrador);
             return new ResponseEntity<>(responsables, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

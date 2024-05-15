@@ -1,6 +1,5 @@
 package com.sistema.examenes.services;
 
-import com.sistema.examenes.entity.Actividad;
 import com.sistema.examenes.entity.Cualitativa;
 import com.sistema.examenes.repository.Cualitativa_repository;
 import org.springframework.beans.factory.annotation.Autowired;

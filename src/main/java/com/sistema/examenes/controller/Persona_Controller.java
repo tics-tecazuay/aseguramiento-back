@@ -27,10 +27,10 @@ public class Persona_Controller {
         }
     }
 
-    @GetMapping("/listar")
-    public ResponseEntity<List<Persona>> obtenerLista() {
+    @GetMapping("/usuariosp")
+    public ResponseEntity<List<Persona>> obtenerPersonasAsociadasConUsuarios() {
         try {
-            return new ResponseEntity<>(Service.findByAll(), HttpStatus.OK);
+            return new ResponseEntity<>(Service.obtenerTodasLasPersonasAsociadasConUsuarios(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

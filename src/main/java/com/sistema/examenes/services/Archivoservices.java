@@ -9,11 +9,10 @@ import java.util.stream.Stream;
 
 public interface Archivoservices {
     void init() throws IOException;
-  public void  guardar(MultipartFile file);
-   public Resource load(String filename );
+    public void  guardar(MultipartFile file, String nombreArchivoUnico);
+    public Resource load(String filename );
     public Stream<Path> lIstar();
     public String borrar(String filname);
-
-
+    boolean existsByNombre(String nombre);
 
 }

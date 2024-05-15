@@ -1,12 +1,10 @@
 package com.sistema.examenes.services;
 
-import com.sistema.examenes.entity.Actividad;
 import com.sistema.examenes.entity.Observacion;
 import com.sistema.examenes.repository.Observacion_repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.List;
 

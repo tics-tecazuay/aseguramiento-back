@@ -20,14 +20,18 @@ public class Formula implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_formula")
     private Long id_formula;
+
     @Column(name = "formula")
     private String formula;
+
     @Column(name = "descripcion", length = 10000 )
     private String descripcion;
+
     //Columna para el eliminado logico no borrar
     @Column(name = "visible")
     private boolean visible;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "formula")
+
     @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "formula")
     private Set<Encabezado_Evaluar> lista_enc_eva = new HashSet<>();
 }

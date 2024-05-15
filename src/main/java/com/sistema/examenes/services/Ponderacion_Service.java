@@ -9,9 +9,9 @@ import java.util.List;
 public interface Ponderacion_Service extends GenericService<Ponderacion, Long> {
     public List<Ponderacion> listar();
 
-    public List<Ponderacion> listarPonderacionPorModelo(Long id_modelo);
+    //public List<Ponderacion> listarPonderacionPorModelo(Long id_modelo);
     public List<PonderacionProjection> listarPonderacionModelo(Long id_modelo);
-    public List<Ponderacion> listarPonderacionPorFecha(String fecha,Long contador);
+    public List<PonderacionProjection> listarPonderacionPorFecha(String fecha,Long contador);
 
     public List<Ponderacion> listarPorFecha(String fecha);
     public List<PonderacionProjection> idmax(Long id_modelo);

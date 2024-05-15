@@ -3,6 +3,7 @@ package com.sistema.examenes.controller;
 import com.sistema.examenes.entity.Criterio;
 import com.sistema.examenes.entity.Indicador;
 import com.sistema.examenes.projection.*;
+import com.sistema.examenes.services.Evaluar_Cualitativa_Service;
 import com.sistema.examenes.services.Indicador_Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,9 @@ import java.util.List;
 public class Indicadores_Controller {
     @Autowired
     Indicador_Service Service;
+
+    @Autowired
+    Evaluar_Cualitativa_Service serviceEvaluarCuali;
 
     @PostMapping("/crear")
     public ResponseEntity<Indicador> crear(@RequestBody Indicador r) {
@@ -37,6 +41,15 @@ public class Indicadores_Controller {
         }
     }
 
+    @GetMapping("/listarindicadoresModelo/{id_modelo}")
+    public ResponseEntity<List<PonderacionProjection>> listarIndicadoresModelo(@PathVariable("id_modelo") Long id_modelo) {
+        try {
+            return new ResponseEntity<>(Service.listarIndicadoresModelo(id_modelo), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/listarindi/{id_modelo}")
     public ResponseEntity<List<IndicadoresProjection>> listaIndi(@PathVariable("id_modelo") Long id_modelo) {
         try {
@@ -47,7 +60,7 @@ public class Indicadores_Controller {
     }
 
     @GetMapping("/listarindiad/{id_modelo}/{id}")
-    public ResponseEntity<List<IndicadoresProjection>> listaIndiad(@PathVariable("id_modelo") Long id_modelo,@PathVariable("id") Long id) {
+    public ResponseEntity<List<CriterioPorcProjection>> listaIndiad(@PathVariable("id_modelo") Long id_modelo,@PathVariable("id") Long id) {
         try {
             return new ResponseEntity<>(Service.indicadoresadmin(id_modelo,id), HttpStatus.OK);
         } catch (Exception e) {
@@ -142,6 +155,24 @@ public class Indicadores_Controller {
 
         }
     }
+    @PutMapping("/ponderacionporevid/{id}/{id_evidencia}")
+    public ResponseEntity<Indicador> actualizarPonderacionporEvid(@PathVariable Long id, @PathVariable Long id_evidencia, @RequestBody Indicador p) {
+        Indicador indicador = Service.findById(id);
+        if (indicador == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            try {
+                indicador.setValor_obtenido(p.getValor_obtenido());
+                indicador.setPorc_obtenido(p.getPorc_obtenido());
+                indicador.setPorc_utilida_obtenida(p.getPorc_utilida_obtenida());
+                return new ResponseEntity<>(Service.save(indicador), HttpStatus.CREATED);
+            } catch (Exception e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+        }
+    }
+
 
     // consumir metodo listarPorSubcriterio
     @GetMapping("/listarPorSubcriterio/{id_subcriterio}")
@@ -165,16 +196,19 @@ public class Indicadores_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/indicadoresPorCriterios")
-    public ResponseEntity<List<Indicador>> indicadoresPorCriterios(
+
+    @GetMapping("/indicadoresPorCriterios/{id_modelo}")
+    public ResponseEntity<List<IndicadoresProjection>> indicadoresPorCriterios(
+            @PathVariable("id_modelo") Long id_modelo,
             @RequestParam("idCriterios") List<Long> idCriterios) {
         try {
-            return new ResponseEntity<>(Service.indicadoresPorCriterios(idCriterios), HttpStatus.OK);
+            return new ResponseEntity<>(Service.indicadoresPorCriterios(id_modelo,idCriterios), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    /*
     @GetMapping("/indicadoresPorCriteriosPruebaCL")
     public ResponseEntity<List<Indicador>> indicadoresPorCriteriosPruebaCuali(
             @RequestParam("idCriterios") List<Long> idCriterios) {
@@ -184,8 +218,7 @@ public class Indicadores_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @GetMapping("/indicadoresPorCriteriosPruebaCT")
+     @GetMapping("/indicadoresPorCriteriosPruebaCT")
     public ResponseEntity<List<Indicador>> indicadoresPorCriteriosPruebaCuanti(
             @RequestParam("idCriterios") List<Long> idCriterios) {
         try {
@@ -194,8 +227,31 @@ public class Indicadores_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+     */
 
-    @GetMapping("/indicadoresPorCriteriosCuali")
+    @GetMapping("/indicadoresPorCriteriosPruebaCualitativa/{id_modelo}")
+    public ResponseEntity<List<IndicadoresProjection>> indicadoresPorCriteriosPruebaCualitativa(
+            @RequestParam("idCriterios") List<Long> idCriterios,
+            @PathVariable("id_modelo") Long id_modelo) {
+        try {
+            return new ResponseEntity<>(Service.indicadoresPorCriteriosPruebaCualitativa(idCriterios,id_modelo), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/indicadoresPorCriteriosPruebaCuantitativa/{id_modelo}")
+    public ResponseEntity<List<IndicadoresProjection>> indicadoresPorCriteriosPruebaCuantitativa(
+            @RequestParam("idCriterios") List<Long> idCriterios,
+            @PathVariable("id_modelo") Long id_modelo) {
+        try {
+            return new ResponseEntity<>(Service.indicadoresPorCriteriosPruebaCuantitativa(idCriterios, id_modelo), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+  /*  @GetMapping("/indicadoresPorCriteriosCuali")
     public ResponseEntity<List<Indicador>> indicadoresPorCriteriosCuali() {
         try {
             List<Indicador> indicadores = Service.indicadoresPorCriteriosCuali();
@@ -213,17 +269,17 @@ public class Indicadores_Controller {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }*/
+
+    @GetMapping("/datosIndicadores/{id_subcriterio}/{id_modelo}")
+    public List<IndicadorEvidenciasProjection> obtenerDatosSubcriterios(@PathVariable("id_subcriterio") Long id_subcriterio,@PathVariable("id_modelo") Long id_modelo ) {
+        return Service.obtenerDatosIndicadores(id_subcriterio, id_modelo);
     }
 
-    @GetMapping("/datosIndicadores/{id_subcriterio}")
-    public List<IndicadorEvidenciasProjection> obtenerDatosSubcriterios(@PathVariable("id_subcriterio") Long id_subcriterio) {
-        return Service.obtenerDatosIndicadores(id_subcriterio);
-    }
-
-    @GetMapping("/datosIndicadoresFull")
+    /*@GetMapping("/datosIndicadoresFull")
     public List<IndicadorEvidenciasProjectionFull> obtenerDatosSubcriteriosFull() {
         return Service.obtenerDatosIndicadoresFull();
-    }
+    }*/
 
     @GetMapping("/indicadorespormodelo/{id_modelo}")
     public ResponseEntity<List<Indicador>> indicadoresPorModelo(
@@ -260,4 +316,20 @@ public class Indicadores_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }*/
+    @GetMapping("/listarporcindicadores/{sub_nombre}/{id_modelo}")
+    public ResponseEntity<List<IndicadorPorcProjection>> listarporcindicadores(@PathVariable("sub_nombre") String sub_nombre,@PathVariable("id_modelo") Long id_modelo) {
+        try {
+            return new ResponseEntity<>(Service.indicadoreporsubcriterio(sub_nombre,id_modelo), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/indicadorval/{id_modelo}}")
+    public ResponseEntity<List<IndicadoresGPieProjection>> getIndicadoresByPorcObtenido(@PathVariable("id_modelo") Long id_modelo) {
+        try {
+            return new ResponseEntity<>(Service.indicadoresPorcObtenidoM75(id_modelo), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

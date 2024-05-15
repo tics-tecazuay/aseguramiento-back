@@ -78,12 +78,13 @@ public class Cuantitativa_Controller {
         if (a == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
+            a.setDescripcion(p.getDescripcion());
+            a.setAbreviatura(p.getAbreviatura());
             try {
-                return new ResponseEntity<>(Service.save(a), HttpStatus.CREATED);
+                return new ResponseEntity<>(Service.save(a), HttpStatus.OK);
             } catch (Exception e) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-
         }
     }
 }

@@ -2,6 +2,8 @@ package com.sistema.examenes.controller;
 
 import com.sistema.examenes.entity.Encabezado_Evaluar;
 import com.sistema.examenes.entity.Formula;
+import com.sistema.examenes.projection.FormulaProjection;
+import com.sistema.examenes.services.Encabezado_Evaluar_Service;
 import com.sistema.examenes.services.Formula_Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,11 +19,13 @@ public class Formula_Controller {
     @Autowired
     Formula_Service Service;
 
+    @Autowired
+    Encabezado_Evaluar_Service encaEvaServ;
+
     @PostMapping("/crear")
     public ResponseEntity<Formula> crear(@RequestBody Formula r) {
         try {
             r.setVisible(true);
-
             return new ResponseEntity<>(Service.save(r), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -36,10 +40,10 @@ public class Formula_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/listarv")
-    public ResponseEntity<List<Formula>> obtenerListav() {
+    @GetMapping("/listarv/{id_modelo}")
+    public ResponseEntity<List<FormulaProjection>> obtenerListav(@PathVariable("id_modelo") Long id_modelo) {
         try {
-            return new ResponseEntity<>(Service.listar(), HttpStatus.OK);
+            return new ResponseEntity<>(Service.listarFormulas(id_modelo), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -62,8 +66,14 @@ public class Formula_Controller {
         if (a == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
+            Encabezado_Evaluar ee = encaEvaServ.findByIdFormula(a.getId_formula());
+            if (ee == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
             try {
+                ee.setVisible(false);
                 a.setVisible(false);
+                encaEvaServ.save(ee);
                 return new ResponseEntity<>(Service.save(a), HttpStatus.CREATED);
             } catch (Exception e) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

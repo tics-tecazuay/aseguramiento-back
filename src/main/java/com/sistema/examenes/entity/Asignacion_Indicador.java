@@ -15,11 +15,13 @@ public class Asignacion_Indicador implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_asignacion_indicador")
     private Long id_asignacion_indicador;
-    // Columna para el eliminado logico no borrar
+
     @Column(name = "visible")
     private boolean visible;
+
     @ManyToOne(fetch = FetchType.EAGER)
     private Indicador indicador;
+
     @ManyToOne(fetch = FetchType.EAGER)
     private Modelo modelo;
 

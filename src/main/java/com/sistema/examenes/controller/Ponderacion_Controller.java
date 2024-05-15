@@ -1,8 +1,12 @@
 package com.sistema.examenes.controller;
 
-import com.sistema.examenes.entity.Encabezado_Evaluar;
-import com.sistema.examenes.entity.Ponderacion;
+import com.sistema.examenes.entity.*;
+import com.sistema.examenes.entity.pdto.PonderacionPDTO;
+import com.sistema.examenes.entity.pdto.SubcriterioPDTO;
 import com.sistema.examenes.projection.PonderacionProjection;
+import com.sistema.examenes.services.Criterio_Service;
+import com.sistema.examenes.services.Indicador_Service;
+import com.sistema.examenes.services.Modelo_Service;
 import com.sistema.examenes.services.Ponderacion_Service;
 
 import java.text.ParseException;
@@ -23,6 +27,10 @@ import java.util.List;
 public class Ponderacion_Controller {
     @Autowired
     Ponderacion_Service Service;
+    @Autowired
+    Indicador_Service indicadorService;
+    @Autowired
+    Modelo_Service modeloService;
 
     @PostMapping("/crear")
     public ResponseEntity<Ponderacion> crear(@RequestBody Ponderacion r) {
@@ -35,6 +43,36 @@ public class Ponderacion_Controller {
         }
     }
 
+    @PostMapping("/crearLista")
+    public ResponseEntity<List<Ponderacion>> crearLista(@RequestBody List<PonderacionPDTO> ponderaciones) {
+        try {
+            List<Ponderacion> resultados = new ArrayList<>();
+
+            for (PonderacionPDTO ponderacionPDTO : ponderaciones) {
+                Ponderacion ponderacion = new Ponderacion();
+                ponderacion.setVisible(true);
+                ponderacion.setFecha(ponderacionPDTO.getFecha());
+                ponderacion.setPeso(ponderacionPDTO.getPeso());
+                ponderacion.setPorc_obtenido(ponderacionPDTO.getPorcentajeobtenido());
+                ponderacion.setPorc_utilida_obtenida(ponderacionPDTO.getPorcentajeutilidad());
+                ponderacion.setValor_obtenido(ponderacionPDTO.getValorobtenido());
+                Indicador indicador = indicadorService.findById(ponderacionPDTO.getIdindicador());
+                Modelo modelo = modeloService.findById(ponderacionPDTO.getIdmodelo());
+                ponderacion.setContador(ponderacionPDTO.getContador());
+                ponderacion.setIndicador(indicador);
+                ponderacion.setModelo(modelo);
+
+                resultados.add(Service.save(ponderacion));
+            }
+
+            return new ResponseEntity<>(resultados, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /*
     @PostMapping("/crearLista")
     public ResponseEntity<List<Ponderacion>> crear(@RequestBody List<Ponderacion> ponderaciones) {
         try {
@@ -50,6 +88,8 @@ public class Ponderacion_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+     */
 
     @GetMapping("/listar")
     public ResponseEntity<List<Ponderacion>> obtenerLista() {
@@ -128,8 +168,8 @@ public class Ponderacion_Controller {
     }
 
     @GetMapping("/listarPonderacionPorFecha/{fecha}/{contador}")
-    public ResponseEntity<List<Ponderacion>> listarPonderacionPorFecha(@PathVariable("fecha") String fecha,@PathVariable("contador") Long contador) {
-        List<Ponderacion> ponderaciones = Service.listarPonderacionPorFecha(fecha,contador);
+    public ResponseEntity<List<PonderacionProjection>> listarPonderacionPorFecha(@PathVariable("fecha") String fecha,@PathVariable("contador") Long contador) {
+        List<PonderacionProjection> ponderaciones = Service.listarPonderacionPorFecha(fecha,contador);
         return new ResponseEntity<>(ponderaciones, HttpStatus.OK);
     }
 
