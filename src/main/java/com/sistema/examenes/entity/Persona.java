@@ -38,7 +38,8 @@ public class Persona implements Serializable {
     //Columna para el eliminado logico no borrar
     @Column(name = "visible")
     private boolean visible;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "persona")
+
     @JsonIgnore
+    @OneToMany(mappedBy = "persona",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Set<Usuario> listausuarios = new HashSet<>();
 }

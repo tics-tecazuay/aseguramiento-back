@@ -20,16 +20,17 @@ public class Cualitativa implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cualitativa")
     private Long id_cualitativa;
+
     @Column(name = "valor")
     private double valor;
+
     @Column(name = "escala")
     private String escala;
 
-    // Columna para el eliminado logico no borrar
     @Column(name = "visible")
     private boolean visible;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "cualitativa")
     @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "cualitativa")
     private Set<Evaluar_Cualitativa> lista_eva_cual = new HashSet<>();
 }

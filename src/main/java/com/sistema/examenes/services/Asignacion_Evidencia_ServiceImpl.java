@@ -1,12 +1,8 @@
 package com.sistema.examenes.services;
 
-import com.sistema.examenes.entity.Actividad;
 import com.sistema.examenes.entity.Asignacion_Evidencia;
-import com.sistema.examenes.projection.ActiCalendarProjection;
+import com.sistema.examenes.projection.*;
 import com.sistema.examenes.entity.dto.Asignacion_EvidenciaDTO;
-import com.sistema.examenes.projection.AsignaProjection;
-import com.sistema.examenes.projection.AsignacionEvidenciaProyeccion;
-import com.sistema.examenes.projection.EvidenciaReApPeAtrProjection;
 import com.sistema.examenes.repository.Asignacion_Evidencia_repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -43,8 +39,13 @@ public class Asignacion_Evidencia_ServiceImpl extends GenericServiceImpl<Asignac
     }
 
     @Override
-    public List<AsignaProjection> listarAsigEvidencia() {
-        return repository.listarAsigEvidencia();
+    public List<AsignaProjection> listarAsigEvidencia(Long id_modelo) {
+        return repository.listarAsigEvidencia(id_modelo);
+    }
+
+    @Override
+    public List<AsignaProjection> listarAsigEvidenciaPorUsuario(Long usuarioId) {
+        return repository.listarAsigEvidenciaPorUsuario(usuarioId);
     }
 
     @Override
@@ -53,18 +54,18 @@ public class Asignacion_Evidencia_ServiceImpl extends GenericServiceImpl<Asignac
     }
 
     @Override
-    public List<ActiCalendarProjection> listarActiCalendarbyuser(Long usuario) {
-        return repository.findActCalendarByUsuarioId(usuario);
+    public List<ActiCalendarProjection> listarActiCalendarbyuser(Long usuario, Long id_modelo) {
+        return repository.findActCalendarByUsuarioId(usuario, id_modelo);
     }
 
     @Override
-    public List<Asignacion_Evidencia> listar() {
-        return repository.listarAsignacionEvidencia();
+    public List<AsignacionEvidenciaCalendarProjection> listar(Long id_modelo) {
+        return repository.listarAsignacionEvidencia(id_modelo);
     }
 
     @Override
-    public List<Asignacion_EvidenciaDTO> listarAsigEviUser(String username, Long id_evidencia) {
-        List<Object[]> resultados = repository.listarAsigEviUser(username, id_evidencia);
+    public List<Asignacion_EvidenciaDTO> listarAsigEviUser(String username, Long id_evidencia, Long idModel) {
+        List<Object[]> resultados = repository.listarAsigEviUser(username, id_evidencia, idModel);
         List<Asignacion_EvidenciaDTO> asignaciones = new ArrayList<>();
 
         for (Object[] fila : resultados) {
@@ -76,6 +77,9 @@ public class Asignacion_Evidencia_ServiceImpl extends GenericServiceImpl<Asignac
             ae.setFecha_fin((Date) fila[3]);
             ae.setEstado_evidencia((String) fila[4]);
             ae.setId_evidencia(((BigInteger) fila[5]).longValue());
+            ae.setObservacion((String) fila[6]);
+            ae.setCountarchivos(((BigInteger) fila[7]).intValue());
+            ae.setComentario_archivo((String) fila[8]);
             asignaciones.add(ae);
         }
         return asignaciones;
@@ -86,9 +90,8 @@ public class Asignacion_Evidencia_ServiceImpl extends GenericServiceImpl<Asignac
         return repository.listarporusuario(username);
     }
     @Override
-    public List<Asignacion_Evidencia>listarporEvidencia(Long idEvidencia ) {
-        return repository.listarporEvidencia(idEvidencia);
-
+    public List<Asignacion_Evidencia>listarporEvidencia(Long idEvidencia, Long id_modelo ) {
+        return repository.listarporEvidencia(idEvidencia, id_modelo);
     }
 
     @Override
@@ -97,18 +100,22 @@ public class Asignacion_Evidencia_ServiceImpl extends GenericServiceImpl<Asignac
     }
 
     @Override
-    public List<EvidenciaReApPeAtrProjection> listaEvidRe() {
-        return repository.listarEvideRechazadas();
+    public List<EvidenciaReApPeAtrProjection> listarEvideByEstado(String estado, Long id_modelo) {
+        return repository.listarEvideByEstado(estado,id_modelo);
     }
 
     @Override
-    public List<EvidenciaReApPeAtrProjection> listaEvidAp() {
-        return repository.listarEvideAprobadas();
+    public List<EvidenciaReApPeAtrProjection> listarEvideByEstadoAdm(String estado, Long id_admin, Long idModel) {
+        return repository.listarEvideByEstadoAdm(estado,id_admin, idModel);
+    }
+    @Override
+    public List<ActivProyection> listarByActividad() {
+        return repository.listarByActividad();
     }
 
     @Override
-    public List<EvidenciaReApPeAtrProjection> listaEvidPen() {
-        return repository.listarEvidePendientes();
+    public int countArchivosByIdAsigEv(Long idAsignacionEv) {
+        return repository.countArchivosByIdAsigEv(idAsignacionEv);
     }
 
 }

@@ -1,12 +1,11 @@
 package com.sistema.examenes.services;
 
-import com.sistema.examenes.entity.Actividad;
 import com.sistema.examenes.entity.Formula;
+import com.sistema.examenes.projection.FormulaProjection;
 import com.sistema.examenes.repository.Formula_repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -19,7 +18,7 @@ public class Formula_ServiceImpl extends GenericServiceImpl<Formula, Long> imple
     }
 
     @Override
-    public List<Formula> listar() {
-        return repository.listarFormula();
+    public List<FormulaProjection> listarFormulas(Long id_modelo) {
+        return repository.listarFormulas(id_modelo);
     }
 }

@@ -1,9 +1,7 @@
 package com.sistema.examenes.controller;
 
-import com.sistema.examenes.entity.Actividad;
 import com.sistema.examenes.entity.Asignacion_Evidencia;
 import com.sistema.examenes.entity.Notificacion;
-import com.sistema.examenes.services.Actividad_Service;
 import com.sistema.examenes.services.Asignacion_Evidencia_Service;
 import com.sistema.examenes.services.NotificacionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,21 +35,46 @@ public class Notificacion_Controller {
         }
     }
 
-    @GetMapping("/listarTodasNotificaciones")
-    public ResponseEntity<List<Notificacion>>listarTodasNotificaciones(){
+    @GetMapping("/listartodasnotificaciones/{id_modelo}")
+    public ResponseEntity<List<Notificacion>>listarTodasNotificaciones(@PathVariable("id_modelo") Long id_modelo){
         try {
-            return new ResponseEntity<>(service.listarTodasNotificaciones(), HttpStatus.OK);
+            return new ResponseEntity<>(service.listarTodasNotificaciones(id_modelo), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/listarnotificaciones/{id}")
-    public ResponseEntity<List<Notificacion>>listar(@PathVariable("id") Long id){
+        @GetMapping("/listarnotificaciones/{id_usuario}/{id_modelo}")
+    public ResponseEntity<List<Notificacion>>listarNotificacionesPorUsuario(@PathVariable("id_usuario") Long id_usuario,@PathVariable("id_modelo") Long id_modelo){
         try {
-            return new ResponseEntity<>(service.listar(id), HttpStatus.OK);
+            return new ResponseEntity<>(service.listarNotificacionesPorUsuario(id_usuario,id_modelo), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/listarnotificacionesmovil/{id}")
+    public ResponseEntity<List<Notificacion>> listarmovil(@PathVariable("id") Long id){
+        try {
+            return new ResponseEntity<>(service.listarmovil(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/actualizarnotificaciones/{id}")
+    public ResponseEntity<?> actualizarnotificaciones(@PathVariable Long id) {
+        Notificacion notificacion = service.findById(id);
+        if (notificacion == null) {
+            return new ResponseEntity<>("Notificación no encontrada", HttpStatus.NOT_FOUND);
+        } else {
+            try {
+                notificacion.setVisto(true);
+                service.save(notificacion);
+                return new ResponseEntity<>("Notificación marcada como vista", HttpStatus.OK);
+            } catch (Exception e) {
+                return new ResponseEntity<>("Error al actualizar la notificación", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
     }
 
@@ -63,18 +86,26 @@ public class Notificacion_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/listartodo/{roluser}")
-    public ResponseEntity<List<Notificacion>>obtenerLista(@PathVariable("roluser") String roluser) {
+    @GetMapping("/listarnotificacionesrol/{roluser}/{id_modelo}")
+    public ResponseEntity<List<Notificacion>>obtenerLista(@PathVariable("roluser") String roluser,@PathVariable("id_modelo") Long id_modelo) {
         try {
-            return new ResponseEntity<>(service.all(roluser), HttpStatus.OK);
+            return new ResponseEntity<>(service.listarNotificacionesPorRolUsuario(roluser,id_modelo), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/listartodo2/{roluser}/{userId}")
-    public ResponseEntity<List<Notificacion>>obtenerLista2(@PathVariable("roluser") String roluser, @PathVariable("userId") Long userId) {
+    @GetMapping("/listartodomovil/{roluser}")
+    public ResponseEntity<List<Notificacion>>obtenerListamovil(@PathVariable("roluser") String roluser) {
         try {
-            return new ResponseEntity<>(service.all2(roluser,userId), HttpStatus.OK);
+            return new ResponseEntity<>(service.allmovil(roluser), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/listartodo2/{roluser}/{userId}/{id_modelo}")
+    public ResponseEntity<List<Notificacion>>obtenerLista2(@PathVariable("roluser") String roluser, @PathVariable("userId") Long userId,@PathVariable("id_modelo") Long id_modelo) {
+        try {
+            return new ResponseEntity<>(service.all2(roluser,userId,id_modelo), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -95,7 +126,7 @@ public class Notificacion_Controller {
 
         }
     }
-    @Scheduled(cron = "0 0 0 * * ?")
+   /* @Scheduled(cron = "0 0 0 * * ?")
     public void eliminarNotificacionesAntiguas() {
         java.sql.Date fe=service.fechaeliminar();
         if(fe!=null){
@@ -110,7 +141,7 @@ public class Notificacion_Controller {
             service.eliminar(notificacion.getId());
         }
        }
-    }
+    }*/
 //@Scheduled(cron = "segundo minuto hora día-del-mes mes día-de-la-semana")
     @Scheduled(cron = "0 0 10 * * ?") // Ejecutar todos los días a las 10 AM 13PM
     public void CrearNotificaciones() {
@@ -144,8 +175,8 @@ public class Notificacion_Controller {
             }
         }
     }
-    @PostConstruct
+    /*@PostConstruct
     public void iniciarServidor() {
         eliminarNotificacionesAntiguas();
-    }
+    }*/
 }

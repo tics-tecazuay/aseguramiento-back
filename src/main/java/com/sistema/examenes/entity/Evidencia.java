@@ -29,13 +29,17 @@ public class Evidencia implements Serializable {
     @Column(name = "visible")
     private Boolean visible;
 
+    @Column(name = "valor_obtenido")
+    private Double valor_obtenido;
+
     @ManyToOne(fetch = FetchType.EAGER)
     private Indicador indicador;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "evidencia")
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "evidencia")
     @JsonIgnore
     private Set<Detalle_Evaluacion> detalleEvaluaciones = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "evidencia")
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "evidencia")
     @JsonIgnore
     private Set<Asignacion_Evidencia> lista_evidencias = new HashSet<>();
 

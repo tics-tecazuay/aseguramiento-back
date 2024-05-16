@@ -6,6 +6,7 @@ import com.sistema.examenes.entity.JwtResponse;
 import com.sistema.examenes.entity.Usuario;
 import com.sistema.examenes.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -35,8 +36,8 @@ public class AuthenticationController {
         try{
             autenticar(jwtRequest.getUsername(),jwtRequest.getPassword());
         }catch (Exception exception){
-            exception.printStackTrace();
-            throw new Exception("Usuario no encontrado");
+            // Devuelve un mensaje genérico cuando las credenciales son inválidas
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
         }
 
         UserDetails userDetails =  this.userDetailsService.loadUserByUsername(jwtRequest.getUsername());
@@ -48,14 +49,15 @@ public class AuthenticationController {
         try{
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
         }catch (DisabledException exception){
-            throw  new Exception("USUARIO DESHABILITADO " + exception.getMessage());
+            throw  new Exception("Usuario desabilitado");
         }catch (BadCredentialsException e){
-            throw  new Exception("Credenciales invalidas " + e.getMessage());
+            throw  new Exception("Credenciales invalidas" );
         }
     }
 
     @GetMapping("/actual-usuario")
     public Usuario obtenerUsuarioActual(Principal principal){
+        System.out.println("nombre"+principal.getName());
         return (Usuario) this.userDetailsService.loadUserByUsername(principal.getName());
     }
 }

@@ -24,14 +24,15 @@ public class  Encabezado_Evaluar implements Serializable {
     @Column(name = "visible")
     private boolean visible;
 
-
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "formula_id_formula", referencedColumnName = "id_formula")
     private Formula formula;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "indicador_id_indicador", referencedColumnName = "id_indicador")
     private Indicador indicador;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "encabezado_evaluar")
     @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "encabezado_evaluar")
     private Set<Evaluar_Cuantitativa> lista_cuantitativa = new HashSet<>();
 }

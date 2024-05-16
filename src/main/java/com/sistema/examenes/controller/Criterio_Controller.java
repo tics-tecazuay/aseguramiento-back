@@ -64,7 +64,7 @@ public class Criterio_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    /**
     @GetMapping("/listarcriterios")
     public ResponseEntity<List<Criterio>> obtenerCriterio() {
         try {
@@ -73,7 +73,7 @@ public class Criterio_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @GetMapping("/listarcriteriosMode")
     public ResponseEntity<List<Criterio>> obtenerCriterioModelo() {
         try {
@@ -82,6 +82,7 @@ public class Criterio_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     
     @GetMapping("/listarcriteriosMId/{id}")
     public ResponseEntity<List<Criterio>> obtenerCriterioModeloId(@PathVariable("id") Long id) {
@@ -91,7 +92,16 @@ public class Criterio_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+     **/
+    @GetMapping("/listarcriteriosUsuarios/{id}/{id_modelo}")
+    public ResponseEntity<List<CriteProjection>> listarcriusers(@PathVariable("id") Long id, @PathVariable("id_modelo") Long id_modelo) {
+        try {
+            return new ResponseEntity<>(Service.listarcriusers(id,id_modelo), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+/**
     @GetMapping("/datosuser/{id}/{id_modelo}")
     public ResponseEntity<List<CriteProjection>> criterioadmi(@PathVariable("id") Long id, @PathVariable("id_modelo") Long id_modelo) {
         try {
@@ -100,11 +110,19 @@ public class Criterio_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+**/
     @GetMapping("/listarvalores/{id_modelo}")
     public ResponseEntity<List<ValoresProjection>> listarvalores(@PathVariable("id_modelo") Long id_modelo) {
         try {
             return new ResponseEntity<>(Service.listarvalores(id_modelo), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/listarvaloresmovil")
+    public ResponseEntity<List<ValoresProjection>> listarvaloresMovil() {
+        try {
+            return new ResponseEntity<>(Service.listarvaloresmovil(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -121,6 +139,14 @@ public class Criterio_Controller {
     public ResponseEntity<List<ValoresProjection>> listarvaladmin(@PathVariable("id_modelo") Long id_modelo,@PathVariable("id") Long id) {
         try {
             return new ResponseEntity<>(Service.listarvaladmin(id_modelo,id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/listvaladmovil/{id}")
+    public ResponseEntity<List<ValoresProjection>> listarvaladminmovil(@PathVariable("id") Long id) {
+        try {
+            return new ResponseEntity<>(Service.listarvaladminmovil(id), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -201,16 +227,27 @@ public class Criterio_Controller {
         }
     }
 
-    @GetMapping("/obtenerCriteriosUltimoModelo")
-    public ResponseEntity<List<Criterio>> obtenerCriteriosUltimoModelo() {
+    @GetMapping("/obtenerCriteriosUltimoModelo/{id_modelo}")
+    public ResponseEntity<List<Criterio>> obtenerCriteriosUltimoModelo(@PathVariable Long id_modelo) {
         try {
-            return new ResponseEntity<>(Service.obtenerCriteriosUltimoModelo(), HttpStatus.OK);
+            return new ResponseEntity<>(Service.obtenerCriteriosUltimoModelo(id_modelo), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    @GetMapping("/CriteriosUltimoModelo/{id_modelo}")
+    public ResponseEntity<List<CriteProjection>> obtenerCriteUltimoModelo(@PathVariable Long id_modelo) {
+        try {
+            return new ResponseEntity<>(Service.ObtenerCriterioUltimoModelo(id_modelo), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
     // List<Criterio> listarCriterioPorIndicador(Long id_indicador);
+    /**
     @GetMapping("/listarCriterioPorIndicador/{id}")
     public ResponseEntity<List<Criterio>> listarCriterioPorIndicador(@PathVariable("id") Long id) {
         try {
@@ -219,10 +256,10 @@ public class Criterio_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @GetMapping("/datosCriterios")
-    public List<CriterioSubcriteriosProjection> obtenerDatosCriterios() {
-        return Service.obtenerDatosCriterios();
+**/
+    @GetMapping("/datosCriterios/{id_modelo}")
+    public List<CriterioSubcriteriosProjection> obtenerDatosCriterios(@PathVariable("id_modelo") Long id_modelo) {
+        return Service.obtenerDatosCriterios(id_modelo);
     }
 
     @GetMapping("/listCriAdmin/{id_modelo}/{id}")
@@ -233,7 +270,16 @@ public class Criterio_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-  
+    @GetMapping("/listCriAdminultimodel/{id}")
+    public ResponseEntity<List<CriterioAdm>> listarCriterioByAdm(@PathVariable("id") Long id) {
+        try {
+            List<CriterioAdm> criterios = Service.criteriosadmultimomodelo(id);
+            return new ResponseEntity<>(criterios, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/criteriosporusuarioymodelo/{usuarioId}/{modeloId}")
     public ResponseEntity<List<Criterio>> obtenerCriteriosPorUsuarioYModelo(
             @PathVariable("usuarioId") Long usuarioId,
@@ -245,5 +291,12 @@ public class Criterio_Controller {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @GetMapping("/listarporccriterios/{id_modelo}")
+    public ResponseEntity<List<CriterioPorcProjection>> listaIndi(@PathVariable("id_modelo") Long id_modelo) {
+        try {
+            return new ResponseEntity<>(Service.criteriosporModelo(id_modelo), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

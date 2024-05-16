@@ -26,8 +26,13 @@ public class Evidencia_ServiceImpl extends GenericServiceImpl<Evidencia, Long> i
     }
 
     @Override
-    public List<Evidencia> evidenciaUsuario(String username) {
-        return repository.evidenciaUsuario(username);
+    public List<EvidenciaEvProjection> evidenciaUsuario(String username, Long id_modelo) {
+        return repository.evidenciaUsuario(username, id_modelo);
+    }
+
+    @Override
+    public List<EvidenciaEvProjection> evidenciaFiltraCriterio(String username, Long usuarioId, Long idModel) {
+        return repository.evidenciaFiltraCriterio(username , usuarioId, idModel );
     }
 
     @Override
@@ -55,6 +60,10 @@ public class Evidencia_ServiceImpl extends GenericServiceImpl<Evidencia, Long> i
     public List<EvidenciasProjection> evidenciaRechazada(Long id_modelo) {
         return repository.evidenciaRechazada(id_modelo);
     }
+    @Override
+    public List<EvidenciaProjection> listararchivos(Long id_evidencia) {
+        return repository.listararchivos(id_evidencia);
+    }
 
     @Override
     public EvidenciaCalProjection evidenciacal(Long id_evidencia, Long id_modelo) {
@@ -62,26 +71,36 @@ public class Evidencia_ServiceImpl extends GenericServiceImpl<Evidencia, Long> i
     }
 
     @Override
-    public List<AsigEvidProjection> evidenciatab(Long idcriterio) {
-        return repository.evidenciatab(idcriterio);
+    public List<AsigEvidProjection> obtenerEvidenciasPorCriterio(Long idcriterio, Long id_modelo) {
+        return repository.obtenerEvidenciasPorCriterio(idcriterio, id_modelo);
     }
 
     @Override
-    public List<AsigEvidProjection> listarEvidenciaAdmin(Long idUser) {
-        return repository.listarEvidenciaAdmin(idUser);
+    public List<AsigEvidProjection> listarEvidenciaAdmin(Long idUser,Long id_modelo) {
+        return repository.listarEvidenciaAdmin(idUser,id_modelo);
     }
 
     @Override
-    public List<EvidenciaProjection> evidenUsuario(String username) {
-        return repository.evidenUsuario(username);
+    public List<EvidenciaProjection> evidenUsuario(String username, Long idModel) {
+        return repository.evidenUsuario(username, idModel);
     }
 
     @Override
-    public List<EvidenciaProjection> evidenUserPendiente(String username) { return repository.evidenUserPendiente(username);
+    public List<EvidenciaProjection> evidenUserPendiente(String username, Long id_modelo) { return repository.evidenUserPendiente(username,id_modelo);
     }
 
     @Override
-    public ActiDiagramaPieProjection porcentajeEstadosdeActividades(Long responsableId) {
-        return repository.porcentajeEstadosdeActividadesByResponsableId(responsableId);
+    public ActiDiagramaPieProjection porcentajeEstadosdeActividades(Long responsableId, Long id_modelo) {
+        return repository.porcentajeEstadosdeActividadesByResponsableId(responsableId, id_modelo);
     }
+    @Override
+    public ActiDiagramaPieProjection porcentajeEstadosdeEvidenciasGeneral(Long id_modelo) {
+        return repository.porcentajeEstadosdeEvidenciasGeneral(id_modelo);
+    }
+
+    @Override
+    public ValorObtenidoInd valoresObtenidosEvidencias(Long id_indicador) {
+        return repository.obtenerTotalValoresEvidPorIndicador(id_indicador);
+    }
+
 }

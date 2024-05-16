@@ -1,6 +1,5 @@
 package com.sistema.examenes.services;
 
-import com.sistema.examenes.entity.Actividad;
 import com.sistema.examenes.entity.Evaluar_Cuantitativa;
 import com.sistema.examenes.repository.Evaluar_Cuantitativa_repository;
 import org.springframework.beans.factory.annotation.Autowired;

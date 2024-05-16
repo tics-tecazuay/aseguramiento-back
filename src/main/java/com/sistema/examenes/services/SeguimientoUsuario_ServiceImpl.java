@@ -27,24 +27,7 @@ public class SeguimientoUsuario_ServiceImpl extends GenericServiceImpl<Seguimien
 
     @Override
     public List<SeguimientoUsuarioDTO> listaSeguimientoUsuario() {
-        List<Object[]> resultados = repository.listaSeguimientoUsuario();
-        List<SeguimientoUsuarioDTO> dtos = new ArrayList<>();
-        for (Object[] resultado : resultados) {
-            BigInteger idSeguimientoBigInteger = (BigInteger) resultado[0];
-            Long idSeguimiento = idSeguimientoBigInteger.longValueExact(); // Convertir BigInteger a Long
-
-            SeguimientoUsuarioDTO dto = new SeguimientoUsuarioDTO(
-                    idSeguimiento,
-                    (String) resultado[1],
-                    (String) resultado[2],
-                    (String) resultado[3],
-                    (String) resultado[4],
-                    (String) resultado[5],
-                    (Date) resultado[6]
-            );
-            dtos.add(dto);
-        }
-        return dtos;
+        return repository.listaSeguimientoUsuario();
     }
 
 

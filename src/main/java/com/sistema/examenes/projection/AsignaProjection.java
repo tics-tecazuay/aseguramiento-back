@@ -12,4 +12,6 @@ public interface AsignaProjection {
     String getDescev();
     Date getIni();
     Date getFini();
+
+    String getAsignador();
 }

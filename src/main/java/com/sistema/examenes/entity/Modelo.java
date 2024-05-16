@@ -25,21 +25,25 @@ public class Modelo implements Serializable {
     private Date fecha_fin;
     @Column(name = "fecha_final_act")
     private Date fecha_final_act;
+    //Va trabajar para definir la eliminacion logica del mismo
     @Column(name = "visible")
     private boolean visible;
+    //Va trabajar para definir el activo y desactivo de un modelo
+    @Column(name = "estadoad")
+    private Boolean estadoad;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Usuario usuario;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "modelo")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "modelo")
     @JsonIgnore
     private Set<Asignacion_Indicador> lista_criterios = new HashSet<>();
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "modelo")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "modelo")
     @JsonIgnore
     private Set<Reporte> list_reporte = new HashSet<>();
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "modelo")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "modelo")
     @JsonIgnore
     private Set<Ponderacion> ponderacion = new HashSet<>();
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "id_modelo")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "id_modelo")
     @JsonIgnore
     private Set<Asignacion_Admin> asignacionesAdmin = new HashSet<>();
     public Modelo(Long id) {

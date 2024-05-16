@@ -3,6 +3,7 @@ package com.sistema.examenes.services;
 import com.sistema.examenes.entity.Asignacion_Indicador;
 import com.sistema.examenes.entity.Modelo;
 import com.sistema.examenes.projection.AsignaIndicadorProjection;
+import com.sistema.examenes.projection.AsignacionIndicadorProjection;
 import com.sistema.examenes.repository.Asignacion_Indicador_repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -27,8 +28,8 @@ public class Asignacion_Indicador_ServiceImpl extends GenericServiceImpl<Asignac
     }
 
     @Override
-    public List<Asignacion_Indicador> findByModelo(Modelo modelo) {
-        return repository.findByModelo(modelo);
+    public List<AsignacionIndicadorProjection> listarAsignacionIndicador(Long id_modelo) {
+        return repository.listarAsignacionIndicador(id_modelo);
     }
 
     @Override

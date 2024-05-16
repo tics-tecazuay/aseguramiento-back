@@ -12,11 +12,17 @@ import java.util.List;
 
 public interface SeguimientoUsuario_repository extends JpaRepository<SeguimientoUsuario, Long> {
 
-    @Query(value = "SELECT s.id_seguimiento, u.username, r.rolnombre AS rolnombre, p.cedula, CONCAT(p.primer_nombre, ' ', p.primer_apellido) AS usuario, s.descripcion, s.fecha " +
-            "FROM usuarios u " +
-            "JOIN usuariorol ur ON u.id = ur.usuario_id " +
-            "JOIN roles r ON ur.rol_rolid = r.rolid " +
-            "JOIN persona p ON u.persona_id_persona = p.id_persona " +
-            "JOIN seguimiento_usuario s ON u.id = s.usuario_id", nativeQuery = true)
-    List<Object[]> listaSeguimientoUsuario();
+    @Query("SELECT s.id_seguimiento AS id_seguimiento, " +
+            "u.username AS username, " +
+            "r.rolNombre AS rolnombre," +
+            "p.cedula AS cedula, " +
+            "CONCAT(p.primer_nombre, ' ', p.primer_apellido) AS usuario, " +
+            "s.descripcion AS descripcion, " +
+            "s.fecha AS fecha " +
+            "FROM Usuario u " +
+            "JOIN u.usuarioRoles ur " +
+            "JOIN ur.rol r " +
+            "JOIN u.persona p " +
+            "JOIN SeguimientoUsuario s ON u.id = s.usuario.id")
+    List<SeguimientoUsuarioDTO> listaSeguimientoUsuario();
 }

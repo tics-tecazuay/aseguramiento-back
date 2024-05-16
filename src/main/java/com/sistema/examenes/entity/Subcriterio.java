@@ -18,18 +18,22 @@ public class Subcriterio implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_subcriterio")
     private Long id_subcriterio;
+
     @Column(name = "descripcion", length = 10000)
     private String descripcion;
+
     @Column(name = "nombre")
     private String nombre;
-    // Columna para el eliminado logico no borrar
+
     @Column(name = "visible")
     private boolean visible;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_criterio")
-    private Criterio criterio;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "subcriterio")
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
+    @JoinColumn(name = "id_criterio", referencedColumnName = "id_criterio")
+    private Criterio criterio;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "subcriterio")
     private Set<Indicador> lista_indicadores = new HashSet<>();
 }

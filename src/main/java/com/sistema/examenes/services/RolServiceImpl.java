@@ -19,6 +19,6 @@ public class RolServiceImpl extends GenericServiceImpl<Rol, Long> implements Rol
 
     @Override
     public List<Rol> listaRolesPorUsername(String username) {
-        return rolRepository.listaRolesPorUsername(username);
+        return rolRepository.findRolesByUsername(username);
     }
 }

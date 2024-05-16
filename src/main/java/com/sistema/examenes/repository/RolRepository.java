@@ -8,9 +8,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface RolRepository extends JpaRepository<Rol,Long> {
-    @Query(value = "SELECT r.* FROM roles r " +
-            "JOIN usuariorol ur ON r.rolid = ur.rol_rolid " +
-            "JOIN usuarios u ON ur.usuario_id = u.id " +
-            "WHERE u.visible=true AND u.username = :username", nativeQuery = true)
-    List<Rol> listaRolesPorUsername(@Param("username") String username);
+    @Query("SELECT DISTINCT ur.rol FROM Usuario u " +
+            "JOIN u.usuarioRoles ur " +
+            "WHERE u.username = :username AND u.visible = true AND ur.visible = true")
+    List<Rol> findRolesByUsername(@Param("username") String username);
 }

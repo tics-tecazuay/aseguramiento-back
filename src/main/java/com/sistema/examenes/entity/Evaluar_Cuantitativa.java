@@ -15,15 +15,18 @@ public class Evaluar_Cuantitativa implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_evaluar_cuantitativa")
     private Long id_evaluar_cuantitativa;
+
     @Column(name = "valor")
     private double valor;
-    //Columna para el eliminado logico no borrar
+
     @Column(name = "visible")
     private boolean visible;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "encabezado_evaluar_id_encabezado_evaluar", referencedColumnName = "id_encabezado_evaluar")
     private Encabezado_Evaluar encabezado_evaluar;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cuantitativa_id_cuantitativa", referencedColumnName = "id_cuantitativa")
     private Cuantitativa cuantitativa;
 }

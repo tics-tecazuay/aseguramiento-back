@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface Cuantitativa_repository extends JpaRepository<Cuantitativa, Long> {
-    @Query(value = "SELECT * from cuantitativa where visible =true",nativeQuery = true)
+    @Query("SELECT c FROM Cuantitativa c WHERE c.visible = true ORDER BY c.id_cuantitativa ASC")
     List<Cuantitativa> listarCuantitativa();
 }

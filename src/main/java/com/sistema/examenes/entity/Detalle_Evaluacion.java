@@ -24,7 +24,6 @@ public class Detalle_Evaluacion implements Serializable {
     private String observacion;
     @Column(name = "fecha")
     private Date fecha;
-    //Columna para el eliminado logico no borrar
     @Column(name = "visible")
     private boolean visible;
     @Column(name = "id_modelo")

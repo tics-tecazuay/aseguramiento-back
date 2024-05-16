@@ -24,4 +24,6 @@ public class Asignacion_EvidenciaDTO {
     private String username;
     private Long id_observacion;
     private String observacion;
+    private int countarchivos;
+    private String comentario_archivo;
 }

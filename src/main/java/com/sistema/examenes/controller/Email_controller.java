@@ -25,20 +25,6 @@ public class Email_controller {
 private JavaMailSender mail;
     @Autowired
     private IEmailService emailService;
-
-    /*@PostMapping("/send-email")
-    public ResponseEntity<?>enviarcorreo(){
-        SimpleMailMessage email= new SimpleMailMessage();
-        email.setTo("claudio.velecela.est@tecazuay.edu.ec");
-        email.setFrom("jhonloja771@gmail.com");
-        email.setSubject("HABLANDO SERIO");
-        email.setText("SACA DEL GRUOO A LOS DOS ZHUNIO Y GUITAMA ");
-        mail.send(email);
-        return  new ResponseEntity<>(true, HttpStatus.OK);
-
-
-    }*/
-
     @PostMapping("/send-email")
     public ResponseEntity<?> receiveRequestEmail(@RequestBody EmailDTO emailDTO){
         emailService.sendEmail(emailDTO.getToUser(), emailDTO.getSubject(), emailDTO.getMessage());
@@ -48,7 +34,6 @@ private JavaMailSender mail;
     }
     @PostMapping("/sendMessageFile")
     public ResponseEntity<?> receiveRequestEmailWithFile(@ModelAttribute EmailFileDTO emailFileDTO){
-
         try {
             String fileName = emailFileDTO.getFile().getOriginalFilename();
             Path path = Paths.get("src/mail/resources/files/" + fileName);

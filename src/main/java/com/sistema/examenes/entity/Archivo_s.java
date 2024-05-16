@@ -1,15 +1,10 @@
 package com.sistema.examenes.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
 @Entity
 @Getter
 @Setter
@@ -19,15 +14,24 @@ public class Archivo_s implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_archivo")
     private Long id_archivo;
+
     @Column(name = "enlace")
     private String enlace;
+
     @Column(name = "nombre", length = 10000)
     private String nombre;
+
     @Column(name = "descripcion", length = 10000)
     private String descripcion;
-    //Columna para el eliminado logico no borrar
+
     @Column(name = "visible")
     private boolean visible;
+
+    @Column(name = "comentario")
+    private String comentario;
+
+    @Column(name = "id_modelo") // Columna para guardar el Modelo en el que se realiza el registro
+    private Long id_modelo;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_asignacion_evidencia")
